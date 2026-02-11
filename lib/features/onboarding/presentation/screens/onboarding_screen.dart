@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiger_tap_quest/core/domain/bloc/stats_bloc.dart';
 import 'package:tiger_tap_quest/features/onboarding/presentation/widgets/onboarding_layout.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -29,6 +31,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     super.dispose();
   }
 
+  void _completeOnboardingAndGoToMenu() {
+    context.read<StatsBloc>().add(const SetOnboardingCompleted());
+    context.go('/menu');
+  }
+
   void _onNext() {
     if (_currentPage < 2) {
       _pageController.nextPage(
@@ -36,12 +43,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      context.go('/menu');
+      _completeOnboardingAndGoToMenu();
     }
   }
 
   void _onSkip() {
-    context.go('/menu');
+    _completeOnboardingAndGoToMenu();
   }
 
   @override

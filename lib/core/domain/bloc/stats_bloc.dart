@@ -67,6 +67,10 @@ class LoadAchievements extends StatsEvent {
   const LoadAchievements();
 }
 
+class SetOnboardingCompleted extends StatsEvent {
+  const SetOnboardingCompleted();
+}
+
 // State
 class StatsState extends Equatable {
   final GameStats stats;
@@ -110,19 +114,35 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
     on<IncrementGamesPlayed>(_onIncrementGamesPlayed);
     on<UpdateGameResult>(_onUpdateGameResult);
     on<LoadAchievements>(_onLoadAchievements);
+    on<SetOnboardingCompleted>(_onSetOnboardingCompleted);
+  }
+
+  Future<void> _onSetOnboardingCompleted(
+    SetOnboardingCompleted event,
+    Emitter<StatsState> emit,
+  ) async {
+    await _statsService.setOnboardingCompleted();
   }
 
   Future<void> _onLoadStats(LoadStats event, Emitter<StatsState> emit) async {
     emit(state.copyWith(isLoading: true));
-    final stats = await _statsService.loadStats();
-    final achievements = await _statsService.loadAchievements();
-    final profileName = await _statsService.loadProfileName();
-    emit(state.copyWith(
-      stats: stats,
-      achievements: achievements,
-      profileName: profileName,
-      isLoading: false,
-    ));
+    try {
+      final stats = await _statsService.loadStats();
+      final achievements = await _statsService.loadAchievements();
+      final profileName = await _statsService.loadProfileName();
+      emit(state.copyWith(
+        stats: stats,
+        achievements: achievements,
+        profileName: profileName,
+        isLoading: false,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        stats: const GameStats(),
+        achievements: Achievements.all,
+        isLoading: false,
+      ));
+    }
   }
 
   Future<void> _onUpdateStats(

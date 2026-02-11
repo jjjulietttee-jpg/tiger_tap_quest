@@ -54,14 +54,22 @@ class StatsService {
 
   Future<List<Achievement>> loadAchievements() async {
     final prefs = await SharedPreferences.getInstance();
-    final achievementsJson = prefs.getString(_achievementsKey);
-    
-    if (achievementsJson == null) {
+    dynamic achievementsData;
+    try {
+      achievementsData = prefs.get(_achievementsKey);
+    } catch (_) {
       return Achievements.all;
     }
-    
+
+    if (achievementsData == null || achievementsData is! String) {
+      if (achievementsData != null) {
+        await prefs.remove(_achievementsKey);
+      }
+      return Achievements.all;
+    }
+
     try {
-      final Map<String, dynamic> decoded = json.decode(achievementsJson);
+      final Map<String, dynamic> decoded = json.decode(achievementsData);
       return Achievements.all.map((template) {
         final savedData = decoded[template.id] as Map<String, dynamic>?;
         if (savedData != null) {
