@@ -13,7 +13,7 @@ class AboutContentBlock extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.06),
         child: CardWidget(
           child: Text(
-            'Content placeholder.',
+            'Additional information about the app.',
             style: theme.textTheme.bodyLarge,
           ),
         ),

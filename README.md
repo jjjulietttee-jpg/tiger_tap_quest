@@ -1,20 +1,32 @@
-# mobile_app
+# Tiger Tap Quest
 
-Universal Flutter skeleton template (Clean Architecture, widget-driven UI, slivers, go_router).
+A Flutter mobile game featuring fruit-tapping gameplay with jungle theme.
 
-**To reuse for a new app:** see [REUSE.md](REUSE.md).  
-**To launch many apps per day (brand → name → game → screens):** see [WORKFLOW.md](WORKFLOW.md).  
-**To make 5 detached copies (with app names as folder names):** see [scripts/CLONE_BATCH.md](scripts/CLONE_BATCH.md).
+## Features
+
+- Three game modes: Survival, Clear Mode, and Score Rush
+- Achievement system with 30+ achievements
+- In-game shop with upgrades (earned through gameplay)
+- Profile and statistics tracking
+- Smooth animations and responsive UI
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This is a Flutter application. To run the project:
 
-A few resources to get you started if this is your first Flutter project:
+1. Install Flutter SDK: [Flutter Installation Guide](https://docs.flutter.dev/get-started/install)
+2. Clone the repository
+3. Run `flutter pub get` to install dependencies
+4. Run `flutter run` to launch the app
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Project Structure
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- `lib/features/` - Feature modules (game, home, profile, achievements, shop, etc.)
+- `lib/core/` - Shared utilities, theme, and data models
+- `assets/` - Images and app icons
+
+## Resources
+
+- [Flutter Documentation](https://docs.flutter.dev/)
+- [Flutter Cookbook](https://docs.flutter.dev/cookbook)
+- [Dart Language Guide](https://dart.dev/guides)
