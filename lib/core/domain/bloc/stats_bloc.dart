@@ -71,18 +71,24 @@ class SetOnboardingCompleted extends StatsEvent {
   const SetOnboardingCompleted();
 }
 
+class SetGameTutorialCompleted extends StatsEvent {
+  const SetGameTutorialCompleted();
+}
+
 // State
 class StatsState extends Equatable {
   final GameStats stats;
   final List<Achievement> achievements;
   final bool isLoading;
   final String? profileName;
+  final bool gameTutorialCompleted;
 
   const StatsState({
     required this.stats,
     this.achievements = const [],
     this.isLoading = false,
     this.profileName,
+    this.gameTutorialCompleted = false,
   });
 
   StatsState copyWith({
@@ -90,17 +96,20 @@ class StatsState extends Equatable {
     List<Achievement>? achievements,
     bool? isLoading,
     String? profileName,
+    bool? gameTutorialCompleted,
   }) {
     return StatsState(
       stats: stats ?? this.stats,
       achievements: achievements ?? this.achievements,
       isLoading: isLoading ?? this.isLoading,
       profileName: profileName ?? this.profileName,
+      gameTutorialCompleted: gameTutorialCompleted ?? this.gameTutorialCompleted,
     );
   }
 
   @override
-  List<Object?> get props => [stats, achievements, isLoading, profileName];
+  List<Object?> get props =>
+      [stats, achievements, isLoading, profileName, gameTutorialCompleted];
 }
 
 // Bloc
@@ -115,6 +124,15 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
     on<UpdateGameResult>(_onUpdateGameResult);
     on<LoadAchievements>(_onLoadAchievements);
     on<SetOnboardingCompleted>(_onSetOnboardingCompleted);
+    on<SetGameTutorialCompleted>(_onSetGameTutorialCompleted);
+  }
+
+  Future<void> _onSetGameTutorialCompleted(
+    SetGameTutorialCompleted event,
+    Emitter<StatsState> emit,
+  ) async {
+    await _statsService.setGameTutorialCompleted();
+    emit(state.copyWith(gameTutorialCompleted: true));
   }
 
   Future<void> _onSetOnboardingCompleted(
@@ -130,10 +148,13 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
       final stats = await _statsService.loadStats();
       final achievements = await _statsService.loadAchievements();
       final profileName = await _statsService.loadProfileName();
+      final gameTutorialCompleted =
+          await _statsService.isGameTutorialCompleted();
       emit(state.copyWith(
         stats: stats,
         achievements: achievements,
         profileName: profileName,
+        gameTutorialCompleted: gameTutorialCompleted,
         isLoading: false,
       ));
     } catch (e) {

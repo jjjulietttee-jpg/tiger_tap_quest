@@ -7,6 +7,7 @@ class StatsService {
   static const String _statsKey = 'game_stats';
   static const String _profileNameKey = 'profile_name';
   static const String _onboardingCompletedKey = 'onboarding_completed';
+  static const String _gameTutorialCompletedKey = 'game_tutorial_completed';
   static const String _achievementsKey = 'achievements';
   static const String _shopItemsKey = 'shop_items';
 
@@ -50,6 +51,16 @@ class StatsService {
   Future<void> setOnboardingCompleted() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_onboardingCompletedKey, true);
+  }
+
+  Future<bool> isGameTutorialCompleted() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_gameTutorialCompletedKey) ?? false;
+  }
+
+  Future<void> setGameTutorialCompleted() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_gameTutorialCompletedKey, true);
   }
 
   Future<List<Achievement>> loadAchievements() async {

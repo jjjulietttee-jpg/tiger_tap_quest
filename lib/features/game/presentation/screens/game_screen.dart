@@ -11,6 +11,7 @@ import 'package:tiger_tap_quest/features/game/presentation/widgets/game_ui_overl
 import 'package:tiger_tap_quest/features/game/presentation/widgets/bubble_widget.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/tap_feedback_widget.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/game_over_dialog.dart';
+import 'package:tiger_tap_quest/features/game/presentation/widgets/game_tutorial_overlay.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/pause_dialog.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/jungle_background.dart';
 
@@ -27,11 +28,12 @@ class _GameScreenState extends State<GameScreen> {
   late GameBloc _gameBloc;
   late StatsBloc _statsBloc;
   final List<Widget> _feedbackWidgets = [];
+  bool _showTutorial = false;
+  bool _initialCheckDone = false;
 
   @override
   void initState() {
     super.initState();
-    // Get StatsBloc from context and pass to GameBloc
     _statsBloc = context.read<StatsBloc>();
     _gameBloc = GameBloc(statsBloc: _statsBloc);
   }
@@ -39,10 +41,23 @@ class _GameScreenState extends State<GameScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final size = MediaQuery.sizeOf(context);
-    if (_gameBloc.state.status == GameStatus.initial) {
-      _gameBloc.add(StartGame(widget.mode, size));
+    if (!_initialCheckDone && _gameBloc.state.status == GameStatus.initial) {
+      _initialCheckDone = true;
+      final completed = _statsBloc.state.gameTutorialCompleted;
+      if (completed) {
+        final size = MediaQuery.sizeOf(context);
+        _gameBloc.add(StartGame(widget.mode, size));
+      } else {
+        setState(() => _showTutorial = true);
+      }
     }
+  }
+
+  void _onTutorialComplete() {
+    _statsBloc.add(const SetGameTutorialCompleted());
+    final size = MediaQuery.sizeOf(context);
+    _gameBloc.add(StartGame(widget.mode, size));
+    setState(() => _showTutorial = false);
   }
 
   @override
@@ -109,6 +124,16 @@ class _GameScreenState extends State<GameScreen> {
           }
         },
         builder: (context, state) {
+          if (_showTutorial) {
+            return Scaffold(
+              body: Stack(
+                children: [
+                  const JungleBackground(),
+                  GameTutorialOverlay(onComplete: _onTutorialComplete),
+                ],
+              ),
+            );
+          }
           return PopScope(
             canPop: false,
             onPopInvokedWithResult: (didPop, result) {
