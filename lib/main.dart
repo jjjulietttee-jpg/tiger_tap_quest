@@ -7,11 +7,11 @@ import 'package:tiger_tap_quest/core/data/services/stats_service.dart';
 import 'package:tiger_tap_quest/features/shop/domain/bloc/shop_bloc.dart';
 
 void main() {
-  runApp(const App());
+  runApp(const TapApp());
 }
 
-class App extends StatelessWidget {
-  const App({super.key});
+class TapApp extends StatelessWidget {
+  const TapApp({super.key});
 
   @override
   Widget build(BuildContext context) {
