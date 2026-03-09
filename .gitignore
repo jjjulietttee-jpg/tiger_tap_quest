@@ -52,3 +52,18 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Added for Google Play audit hygiene
+.flutter-plugins
+
+# Android artifacts
+**/android/local.properties
+**/android/.gradle/
+**/android/app/build/
+**/android/build/
+
+# Signing / secrets
+*.env
+*.env.*
+google-services.json
+upload-keystore.jks

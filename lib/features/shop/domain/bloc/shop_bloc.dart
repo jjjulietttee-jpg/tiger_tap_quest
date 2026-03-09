@@ -4,7 +4,7 @@ import 'package:tiger_tap_quest/core/data/models/shop_item.dart';
 import 'package:tiger_tap_quest/core/data/services/stats_service.dart';
 import 'package:tiger_tap_quest/core/domain/bloc/stats_bloc.dart';
 
-// Events
+
 abstract class ShopEvent extends Equatable {
   const ShopEvent();
 
@@ -25,7 +25,7 @@ class PurchaseItem extends ShopEvent {
   List<Object?> get props => [item];
 }
 
-// State
+
 class ShopState extends Equatable {
   final List<ShopItem> items;
   final bool isLoading;
@@ -53,7 +53,7 @@ class ShopState extends Equatable {
   List<Object?> get props => [items, isLoading, error];
 }
 
-// Bloc
+
 class ShopBloc extends Bloc<ShopEvent, ShopState> {
   final StatsService _statsService;
   final StatsBloc _statsBloc;
@@ -101,33 +101,33 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
     final currentCoins = _statsBloc.state.stats.coins;
     final price = item.level == 0 ? item.price : item.nextLevelPrice;
 
-    // Check if item is max level
+
     if (item.isMaxLevel) {
       emit(state.copyWith(error: 'Item is already max level!'));
       return;
     }
 
-    // Note: Coin check is now handled in UI with popup
-    // This should only be called if user has enough coins
+
+
 
     try {
-      // Update item level
+
       final updatedItem = item.copyWith(
         level: item.level + 1,
         isPurchased: true,
       );
 
-      // Update items list
+
       final updatedItems = state.items.map((i) {
         return i.id == item.id ? updatedItem : i;
       }).toList();
 
-      // Save shop items
+
       await _statsService.saveShopItems(
         updatedItems.map((i) => i.toJson()).toList(),
       );
 
-      // Deduct coins
+
       final updatedStats = _statsBloc.state.stats.copyWith(
         coins: currentCoins - price,
       );

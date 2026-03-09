@@ -134,7 +134,7 @@ class PlaySetupScreen extends StatelessWidget {
     ThemeData theme,
     Size size,
   ) {
-    // Emoji for each mode
+
     final emoji = mode == GameMode.survival
         ? '❤️'
         : mode == GameMode.clear
@@ -159,7 +159,7 @@ class PlaySetupScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Row(
               children: [
-                // Emoji icon in circle
+
                 Container(
                   width: 60,
                   height: 60,

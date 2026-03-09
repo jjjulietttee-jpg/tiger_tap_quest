@@ -23,8 +23,8 @@ class _SplashLayoutState extends State<SplashLayout>
   @override
   void initState() {
     super.initState();
-    
-    // Main animation
+
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
@@ -41,15 +41,15 @@ class _SplashLayoutState extends State<SplashLayout>
         curve: const Interval(0, 0.7, curve: Curves.easeOutBack),
       ),
     );
-    
-    // Rotation animation for decorative elements
+
+
     _rotateController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
     )..repeat();
     _rotate = Tween<double>(begin: 0, end: 2 * math.pi).animate(_rotateController);
-    
-    // Pulse animation
+
+
     _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
@@ -57,7 +57,7 @@ class _SplashLayoutState extends State<SplashLayout>
     _pulse = Tween<double>(begin: 0.95, end: 1.05).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
-    
+
     _controller.forward();
   }
 
@@ -80,14 +80,14 @@ class _SplashLayoutState extends State<SplashLayout>
         fit: StackFit.expand,
         children: [
           const DarkBackground(),
-          
-          // Animated decorative circles
+
+
           AnimatedBuilder(
             animation: _rotate,
             builder: (context, child) {
               return Stack(
                 children: [
-                  // Top right circle
+
                   Positioned(
                     top: size.height * 0.15,
                     right: -50 + math.sin(_rotate.value) * 20,
@@ -105,7 +105,7 @@ class _SplashLayoutState extends State<SplashLayout>
                       ),
                     ),
                   ),
-                  // Bottom left circle
+
                   Positioned(
                     bottom: size.height * 0.2,
                     left: -70 + math.cos(_rotate.value) * 20,
@@ -127,8 +127,8 @@ class _SplashLayoutState extends State<SplashLayout>
               );
             },
           ),
-          
-          // Floating emojis
+
+
           AnimatedBuilder(
             animation: _rotate,
             builder: (context, child) {
@@ -162,8 +162,8 @@ class _SplashLayoutState extends State<SplashLayout>
               );
             },
           ),
-          
-          // Main content
+
+
           Center(
             child: FadeTransition(
               opacity: _fade,
@@ -172,7 +172,7 @@ class _SplashLayoutState extends State<SplashLayout>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Pulsing tiger emoji
+
                     AnimatedBuilder(
                       animation: _pulse,
                       builder: (context, child) {
@@ -224,8 +224,8 @@ class _SplashLayoutState extends State<SplashLayout>
               ),
             ),
           ),
-          
-          // Loading indicator at bottom
+
+
           Positioned(
             bottom: size.height * 0.1,
             left: 0,

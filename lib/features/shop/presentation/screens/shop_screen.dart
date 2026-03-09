@@ -18,20 +18,20 @@ class ShopScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
+
           Positioned.fill(
             child: Image.asset(
               'assets/images/bg.png',
               fit: BoxFit.cover,
             ),
           ),
-          // Dark overlay
+
           Positioned.fill(
             child: Container(
               color: Colors.black.withValues(alpha: 0.75),
             ),
           ),
-          // Content
+
           SafeArea(
             child: BlocBuilder<ShopBloc, ShopState>(
               builder: (context, shopState) {
@@ -45,7 +45,7 @@ class ShopScreen extends StatelessWidget {
 
                     return CustomScrollView(
                       slivers: [
-                        // App Bar with coins
+
                         SliverAppBar(
                           expandedHeight: 180,
                           pinned: true,
@@ -62,7 +62,7 @@ class ShopScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     const SizedBox(height: 40),
-                                    // Coin display
+
                                     Container(
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 24,
@@ -106,7 +106,7 @@ class ShopScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // Shop items
+
                         SliverPadding(
                           padding: EdgeInsets.all(size.width * 0.04),
                           sliver: SliverList(
@@ -154,7 +154,7 @@ class ShopScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              // Icon
+
               Container(
                 width: 70,
                 height: 70,
@@ -171,7 +171,7 @@ class ShopScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-              // Content
+
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,7 +198,7 @@ class ShopScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          // Level indicator
+
           Row(
             children: [
               Expanded(
@@ -213,7 +213,7 @@ class ShopScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 6),
-                    // Progress bar
+
                     Container(
                       height: 8,
                       decoration: BoxDecoration(
@@ -235,13 +235,13 @@ class ShopScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-              // Buy button
+
               ElevatedButton(
                 onPressed: isMaxLevel
                     ? null
                     : () {
                         if (!canAfford) {
-                          // Show not enough coins popup
+
                           CustomPopup.show(
                             context,
                             title: 'Not Enough Coins',

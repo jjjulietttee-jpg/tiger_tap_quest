@@ -12,15 +12,15 @@ class HomeStatsSection extends StatelessWidget {
     final theme = Theme.of(context);
     final size = MediaQuery.sizeOf(context);
     final spacing = size.width * 0.03;
-    
+
     return BlocBuilder<StatsBloc, StatsState>(
       builder: (context, state) {
         if (state.isLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-        
+
         final stats = state.stats;
-        
+
         return Padding(
           padding: EdgeInsets.only(
             top: size.height * 0.01,

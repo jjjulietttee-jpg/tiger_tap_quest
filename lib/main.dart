@@ -16,7 +16,7 @@ class TapApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statsService = StatsService();
-    
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(

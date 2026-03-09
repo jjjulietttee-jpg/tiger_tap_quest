@@ -32,7 +32,7 @@ class OnboardingPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: constraints.maxHeight * 0.1),
-                  // Emoji only
+
                   if (emoji != null)
                     Container(
                       width: 140,
@@ -53,7 +53,7 @@ class OnboardingPage extends StatelessWidget {
                       ),
                     ),
                   SizedBox(height: constraints.maxHeight * 0.06),
-                  // Title
+
                   CustomText(
                     title,
                     style: theme.textTheme.displayLarge?.copyWith(
@@ -64,7 +64,7 @@ class OnboardingPage extends StatelessWidget {
                     maxLines: 3,
                   ),
                   SizedBox(height: constraints.maxHeight * 0.04),
-                  // Subtitle with proper wrapping
+
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
                     child: Text(

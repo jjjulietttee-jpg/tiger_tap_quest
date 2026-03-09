@@ -20,16 +20,16 @@ class GameState extends Equatable {
   final List<Bubble> bubbles;
   final DateTime? startTime;
   final Duration? remainingTime;
-  final double difficulty; // 1.0 = normal, increases over time
-  final double screenHeight; // For checking if bubble reached top
-  final int bombsUsed; // Track bombs used in this game
-  final int powerUpsCollected; // Track power-ups collected in this game
-  
-  // Power-up states
+  final double difficulty;
+  final double screenHeight;
+  final int bombsUsed;
+  final int powerUpsCollected;
+
+
   final DateTime? slowmoEndTime;
   final DateTime? freezeEndTime;
   final DateTime? starEndTime;
-  final List<String> explodingBubbles; // IDs of bubbles currently exploding
+  final List<String> explodingBubbles;
 
   const GameState({
     this.status = GameStatus.initial,
@@ -59,23 +59,23 @@ class GameState extends Equatable {
     } else if (combo >= 5) {
       multiplier = 2;
     }
-    
-    // Star power-up doubles the multiplier
+
+
     if (starEndTime != null && DateTime.now().isBefore(starEndTime!)) {
       multiplier *= 2;
     }
-    
+
     return multiplier;
   }
 
   bool get isGameOver => status == GameStatus.gameOver;
   bool get isPlaying => status == GameStatus.playing;
   bool get isPaused => status == GameStatus.paused;
-  
+
   bool get isSlowmoActive => slowmoEndTime != null && DateTime.now().isBefore(slowmoEndTime!);
   bool get isFreezeActive => freezeEndTime != null && DateTime.now().isBefore(freezeEndTime!);
   bool get isStarActive => starEndTime != null && DateTime.now().isBefore(starEndTime!);
-  
+
   bool get targetReached {
     final target = mode.targetBubbles;
     return target != null && bubblesPopped >= target;

@@ -13,8 +13,12 @@ class AboutContentBlock extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.06),
         child: CardWidget(
           child: Text(
-            'Additional information about the app.',
+            'A score-focused mobile game with tapping mechanics, '
+            'collectibles and progression through achievements, '
+            'modes, and power-up upgrades.',
             style: theme.textTheme.bodyLarge,
+            semanticsLabel:
+                'Additional information about the app and gameplay',
           ),
         ),
       ),

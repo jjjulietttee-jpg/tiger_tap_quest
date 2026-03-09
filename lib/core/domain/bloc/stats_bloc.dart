@@ -4,7 +4,7 @@ import 'package:tiger_tap_quest/core/data/models/game_stats.dart';
 import 'package:tiger_tap_quest/core/data/models/achievement.dart';
 import 'package:tiger_tap_quest/core/data/services/stats_service.dart';
 
-// Events
+
 abstract class StatsEvent extends Equatable {
   const StatsEvent();
 
@@ -36,8 +36,8 @@ class UpdateGameResult extends StatsEvent {
   final int bombsUsed;
   final int powerUpsCollected;
   final bool completed;
-  final String mode; // 'survival', 'clear', 'score'
-  final int? clearTime; // for clear mode
+  final String mode;
+  final int? clearTime;
 
   const UpdateGameResult({
     required this.score,
@@ -75,7 +75,7 @@ class SetGameTutorialCompleted extends StatsEvent {
   const SetGameTutorialCompleted();
 }
 
-// State
+
 class StatsState extends Equatable {
   final GameStats stats;
   final List<Achievement> achievements;
@@ -112,7 +112,7 @@ class StatsState extends Equatable {
       [stats, achievements, isLoading, profileName, gameTutorialCompleted];
 }
 
-// Bloc
+
 class StatsBloc extends Bloc<StatsEvent, StatsState> {
   final StatsService _statsService;
 
@@ -184,12 +184,12 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
 
   Future<void> _onUpdateGameResult(
       UpdateGameResult event, Emitter<StatsState> emit) async {
-    // Calculate coins earned (score / 10 + bonus for completion)
+
     int coinsEarned = (event.score / 10).floor();
     if (event.completed) {
-      coinsEarned += 50; // Bonus for completing game
+      coinsEarned += 50;
     }
-    
+
     var newStats = state.stats.copyWith(
       totalFruitsCollected:
           state.stats.totalFruitsCollected + event.fruitsCollected,
@@ -199,24 +199,24 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
       coins: state.stats.coins + coinsEarned,
     );
 
-    // Update best score
+
     if (event.score > newStats.bestScore) {
       newStats = newStats.copyWith(bestScore: event.score);
     }
 
-    // Update best combo
+
     if (event.bestCombo > newStats.bestCombo) {
       newStats = newStats.copyWith(bestCombo: event.bestCombo);
     }
 
-    // Update completed games count
+
     if (event.completed) {
       newStats = newStats.copyWith(
         totalGamesCompleted: newStats.totalGamesCompleted + 1,
       );
     }
 
-    // Update mode-specific stats
+
     switch (event.mode) {
       case 'survival':
         if (event.score > newStats.survivalBestScore) {
