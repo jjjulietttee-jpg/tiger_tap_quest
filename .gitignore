@@ -52,3 +52,39 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Flutter plugins
+.flutter-plugins
+
+# Android build & local
+**/android/local.properties
+**/android/.gradle/
+**/android/app/build/
+**/android/build/
+
+# Signing & secrets
+*.jks
+*.keystore
+*.p12
+.env
+.env.*
+key.properties
+upload-keystore.jks
+google-services.json
+
+# IDE
+.vscode/
+
+# iOS (shared, managed by iOS prompt)
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/.xcodeproj/xcuserdata/
+**/.xcworkspace/xcuserdata/
+
+# Unused platforms
+**/macos/Flutter/ephemeral/
+**/linux/flutter/generated_*
+**/windows/flutter/generated_*
+**/web/

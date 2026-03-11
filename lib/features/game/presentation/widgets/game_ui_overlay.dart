@@ -75,8 +75,8 @@ class GameUIOverlay extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Pause button (interactive)
                   IconButton(
+                    tooltip: 'Pause',
                     onPressed: onPause,
                     icon: Icon(
                       Icons.pause_circle,

@@ -13,7 +13,8 @@ class AboutContentBlock extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.06),
         child: CardWidget(
           child: Text(
-            'Additional information about the app.',
+            'Tap rising fruits to score points across three exciting game modes. '
+            'Collect achievements, upgrade your abilities in the shop, and climb the leaderboard!',
             style: theme.textTheme.bodyLarge,
           ),
         ),

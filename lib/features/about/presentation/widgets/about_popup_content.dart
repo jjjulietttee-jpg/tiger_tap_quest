@@ -12,7 +12,7 @@ class AboutPopupContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          'App Name',
+          'Tiger Tap Quest',
           style: theme.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -20,7 +20,7 @@ class AboutPopupContent extends StatelessWidget {
         ),
         SizedBox(height: size.height * 0.015),
         Text(
-          'Version 1.0.0',
+          'Version 1.0.0+2',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
           ),
@@ -28,8 +28,8 @@ class AboutPopupContent extends StatelessWidget {
         ),
         SizedBox(height: size.height * 0.025),
         Text(
-          'A simple template for your next project. '
-          'Customize the look and content to match your needs.',
+          'A jungle adventure game where you tap colorful fruits, '
+          'earn achievements and unlock upgrades in the shop.',
           style: theme.textTheme.bodyLarge,
           textAlign: TextAlign.center,
         ),

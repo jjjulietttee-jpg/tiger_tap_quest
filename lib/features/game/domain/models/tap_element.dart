@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 
 enum BubbleType {
-  // Обычные фрукты
-  banana,      // Банан
-  coconut,     // Кокос
-  mango,       // Манго
-  pineapple,   // Ананас
-  watermelon,  // Арбуз
-  
-  // Спецэлементы
-  bomb,        // 💣 Бомба - взрывает все вокруг
-  tiger,       // 🐯 Тигр - убирает все фрукты одного типа
-  slowmo,      // ⏱️ Замедлитель - замедляет все на 5 сек
-  freeze,      // ❄️ Заморозка - останавливает все на 3 сек
-  lightning,   // ⚡ Молния - убирает все фрукты одного типа (как тигр)
-  star,        // 🌟 Звезда - x2 очки на 10 секунд
-  diamond,     // 💎 Алмаз - дает много очков
+  banana,
+  coconut,
+  mango,
+  pineapple,
+  watermelon,
+
+  bomb,
+  tiger,
+  slowmo,
+  freeze,
+  lightning,
+  star,
+  diamond,
 }
 
 class Bubble {

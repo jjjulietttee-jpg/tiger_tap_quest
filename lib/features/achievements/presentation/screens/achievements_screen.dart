@@ -16,14 +16,13 @@ class AchievementsScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
           Positioned.fill(
             child: Image.asset(
               'assets/images/bg.png',
               fit: BoxFit.cover,
+              excludeFromSemantics: true,
             ),
           ),
-          // Dark overlay
           Positioned.fill(
             child: Container(
               color: Colors.black.withValues(alpha: 0.75),
@@ -49,6 +48,7 @@ class AchievementsScreen extends StatelessWidget {
                       pinned: true,
                       backgroundColor: Colors.black.withValues(alpha: 0.6),
                       leading: IconButton(
+                        tooltip: 'Back',
                         icon: const Icon(Icons.arrow_back, color: Colors.white),
                         onPressed: () => context.pop(),
                       ),

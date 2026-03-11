@@ -1,7 +1,7 @@
 enum GameMode {
-  survival,   // Продержись максимально долго
-  clear,      // Собери все фрукты (заданное количество)
-  score,      // Набери X очков за время
+  survival,
+  clear,
+  score,
 }
 
 extension GameModeExtension on GameMode {

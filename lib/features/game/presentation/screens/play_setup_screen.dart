@@ -29,6 +29,7 @@ class PlaySetupScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       IconButton(
+                        tooltip: 'Back',
                         icon: const Icon(Icons.arrow_back, color: Colors.white),
                         onPressed: () {
                           if (context.canPop()) {
