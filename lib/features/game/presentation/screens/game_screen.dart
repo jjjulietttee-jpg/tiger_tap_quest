@@ -7,6 +7,7 @@ import 'package:tiger_tap_quest/features/game/domain/bloc/game_event.dart';
 import 'package:tiger_tap_quest/features/game/domain/bloc/game_state.dart';
 import 'package:tiger_tap_quest/features/game/domain/models/game_mode.dart';
 import 'package:tiger_tap_quest/features/game/domain/models/tap_element.dart';
+import 'package:tiger_tap_quest/core/domain/bloc/music_cubit.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/game_ui_overlay.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/bubble_widget.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/tap_feedback_widget.dart';
@@ -67,7 +68,7 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _handleTap(Bubble bubble) {
-
+    context.read<MusicCubit>().playClickSound();
     setState(() {
       _feedbackWidgets.add(
         TapFeedbackWidget(
