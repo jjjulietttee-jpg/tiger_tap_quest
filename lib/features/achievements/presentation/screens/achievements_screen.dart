@@ -28,7 +28,7 @@ class AchievementsScreen extends StatelessWidget {
               color: Colors.black.withValues(alpha: 0.75),
             ),
           ),
-          // Content
+
           SafeArea(
             child: BlocBuilder<StatsBloc, StatsState>(
               builder: (context, state) {
@@ -42,7 +42,7 @@ class AchievementsScreen extends StatelessWidget {
 
                 return CustomScrollView(
                   slivers: [
-                    // App Bar - transparent with bg.png visible
+
                     SliverAppBar(
                       expandedHeight: 200,
                       pinned: true,
@@ -60,7 +60,7 @@ class AchievementsScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const SizedBox(height: 40),
-                                // Trophy with glow
+
                                 Container(
                                   width: 80,
                                   height: 80,
@@ -92,7 +92,7 @@ class AchievementsScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 12),
-                                // Progress bar
+
                                 Container(
                                   width: size.width * 0.7,
                                   height: 10,
@@ -121,7 +121,7 @@ class AchievementsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Achievements List
+
                     SliverPadding(
                       padding: EdgeInsets.all(size.width * 0.04),
                       sliver: SliverList(
@@ -166,7 +166,7 @@ class AchievementsScreen extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: Row(
         children: [
-          // Icon
+
           Container(
             width: 80,
             height: 80,
@@ -189,7 +189,7 @@ class AchievementsScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 16),
-          // Content
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,7 +240,7 @@ class AchievementsScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 14),
-                // Progress bar
+
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

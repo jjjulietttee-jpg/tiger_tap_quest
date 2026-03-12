@@ -68,10 +68,10 @@ class Achievement extends Equatable {
       ];
 }
 
-// Predefined achievements
+
 class Achievements {
   static final List<Achievement> all = [
-    // Beginner achievements
+
     const Achievement(
       id: 'first_steps',
       title: 'First Steps',
@@ -107,8 +107,8 @@ class Achievements {
       emoji: '👑',
       targetValue: 250,
     ),
-    
-    // Fruit collection achievements
+
+
     const Achievement(
       id: 'fruit_collector',
       title: 'Fruit Collector',
@@ -137,8 +137,8 @@ class Achievements {
       emoji: '🍍',
       targetValue: 10000,
     ),
-    
-    // Combo achievements
+
+
     const Achievement(
       id: 'combo_starter',
       title: 'Combo Starter',
@@ -167,8 +167,8 @@ class Achievements {
       emoji: '🌟',
       targetValue: 100,
     ),
-    
-    // Score achievements
+
+
     const Achievement(
       id: 'score_hunter',
       title: 'Score Hunter',
@@ -197,8 +197,8 @@ class Achievements {
       emoji: '🌠',
       targetValue: 20000,
     ),
-    
-    // Power-up achievements
+
+
     const Achievement(
       id: 'power_user',
       title: 'Power User',
@@ -241,8 +241,8 @@ class Achievements {
       emoji: '💥',
       targetValue: 100,
     ),
-    
-    // Win achievements
+
+
     const Achievement(
       id: 'first_victory',
       title: 'First Victory',
@@ -271,8 +271,8 @@ class Achievements {
       emoji: '🏅',
       targetValue: 50,
     ),
-    
-    // Special achievements
+
+
     const Achievement(
       id: 'speed_demon',
       title: 'Speed Demon',

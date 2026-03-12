@@ -14,11 +14,11 @@ class StatsService {
   Future<GameStats> loadStats() async {
     final prefs = await SharedPreferences.getInstance();
     final statsJson = prefs.getString(_statsKey);
-    
+
     if (statsJson == null) {
       return const GameStats();
     }
-    
+
     try {
       final Map<String, dynamic> decoded = json.decode(statsJson);
       return GameStats.fromJson(decoded);
@@ -96,11 +96,11 @@ class StatsService {
   Future<void> saveAchievements(List<Achievement> achievements) async {
     final prefs = await SharedPreferences.getInstance();
     final Map<String, dynamic> achievementsMap = {};
-    
+
     for (final achievement in achievements) {
       achievementsMap[achievement.id] = achievement.toJson();
     }
-    
+
     final achievementsJson = json.encode(achievementsMap);
     await prefs.setString(_achievementsKey, achievementsJson);
   }
@@ -108,11 +108,11 @@ class StatsService {
   Future<List<Map<String, dynamic>>> loadShopItems() async {
     final prefs = await SharedPreferences.getInstance();
     final shopItemsJson = prefs.getString(_shopItemsKey);
-    
+
     if (shopItemsJson == null) {
       return [];
     }
-    
+
     try {
       final List<dynamic> decoded = json.decode(shopItemsJson);
       return decoded.cast<Map<String, dynamic>>();

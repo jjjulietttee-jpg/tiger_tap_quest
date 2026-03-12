@@ -7,6 +7,7 @@ import 'package:tiger_tap_quest/features/game/domain/bloc/game_event.dart';
 import 'package:tiger_tap_quest/features/game/domain/bloc/game_state.dart';
 import 'package:tiger_tap_quest/features/game/domain/models/game_mode.dart';
 import 'package:tiger_tap_quest/features/game/domain/models/tap_element.dart';
+import 'package:tiger_tap_quest/core/domain/bloc/music_cubit.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/game_ui_overlay.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/bubble_widget.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/tap_feedback_widget.dart';
@@ -67,7 +68,7 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _handleTap(Bubble bubble) {
-    // Add feedback animation
+    context.read<MusicCubit>().playClickSound();
     setState(() {
       _feedbackWidgets.add(
         TapFeedbackWidget(
@@ -85,22 +86,22 @@ class _GameScreenState extends State<GameScreen> {
       );
     });
 
-    // Process tap
+
     _gameBloc.add(TapOnElement(bubble.id));
   }
 
   void _handleMissTap(Offset position) {
-    // Reset combo
+
     _gameBloc.add(const MissTap());
 
-    // Add miss feedback animation
+
     final missId = DateTime.now().millisecondsSinceEpoch.toString();
     setState(() {
       _feedbackWidgets.add(
         TapFeedbackWidget(
           key: ValueKey('feedback_miss_$missId'),
           position: position,
-          type: null, // null means miss
+          type: null,
           onComplete: () {
             setState(() {
               _feedbackWidgets.removeWhere(
@@ -146,14 +147,14 @@ class _GameScreenState extends State<GameScreen> {
               body: Stack(
                 children: [
                   const JungleBackground(),
-                  // Game area with tap detection
+
                   Positioned.fill(
                     child: GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTapDown: (details) {
                         if (!state.isPlaying) return;
 
-                        // Check if tap hit any bubble
+
                         bool hitBubble = false;
                         for (final bubble in state.bubbles) {
                           final dx =
@@ -170,14 +171,14 @@ class _GameScreenState extends State<GameScreen> {
                           }
                         }
 
-                        // If no bubble was hit, show miss feedback
+
                         if (!hitBubble) {
                           _handleMissTap(details.localPosition);
                         }
                       },
                       child: Stack(
                         children: [
-                          // Bubbles (without GestureDetector)
+
                           ...state.bubbles.map(
                             (bubble) => Positioned(
                               left: bubble.position.dx - bubble.size / 2,
@@ -185,18 +186,18 @@ class _GameScreenState extends State<GameScreen> {
                               child: IgnorePointer(
                                 child: BubbleWidget(
                                   bubble: bubble,
-                                  onTap: () {}, // Not used anymore
+                                  onTap: () {},
                                 ),
                               ),
                             ),
                           ),
-                          // Feedback animations
+
                           ..._feedbackWidgets,
                         ],
                       ),
                     ),
                   ),
-                  // UI Overlay (only pause button is interactive)
+
                   Positioned.fill(
                     child: GameUIOverlay(
                       score: state.score,
@@ -236,7 +237,7 @@ class _GameScreenState extends State<GameScreen> {
             _gameBloc.add(const ResumeGame());
           },
           onExit: () {
-            // Save stats before exiting
+
             final state = _gameBloc.state;
             _statsBloc.add(
               UpdateGameResult(
@@ -245,7 +246,7 @@ class _GameScreenState extends State<GameScreen> {
                 bestCombo: state.bestCombo,
                 bombsUsed: state.bombsUsed,
                 powerUpsCollected: state.powerUpsCollected,
-                completed: false, // Not completed, just quit
+                completed: false,
                 mode: widget.mode.name,
               ),
             );

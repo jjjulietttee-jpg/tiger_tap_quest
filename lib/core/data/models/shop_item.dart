@@ -57,7 +57,7 @@ class ShopItem extends Equatable {
   }
 
   bool get isMaxLevel => level >= maxLevel;
-  
+
   int get nextLevelPrice => price + (level * (price ~/ 2));
 
   Map<String, dynamic> toJson() {
@@ -89,7 +89,7 @@ class ShopItem extends Equatable {
       ];
 }
 
-// Predefined shop items
+
 class ShopItems {
   static final List<ShopItem> all = [
     const ShopItem(

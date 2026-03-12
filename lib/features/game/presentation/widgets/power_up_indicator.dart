@@ -40,9 +40,9 @@ class _PowerUpIndicatorState extends State<PowerUpIndicator>
 
   @override
   Widget build(BuildContext context) {
-    final progress = widget.remainingTime.inMilliseconds / 
+    final progress = widget.remainingTime.inMilliseconds /
                      widget.totalDuration.inMilliseconds;
-    
+
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
@@ -53,7 +53,7 @@ class _PowerUpIndicatorState extends State<PowerUpIndicator>
           child: Stack(
             alignment: Alignment.center,
             children: [
-              // Progress circle
+
               CustomPaint(
                 size: const Size(60, 60),
                 painter: _ProgressCirclePainter(
@@ -61,7 +61,7 @@ class _PowerUpIndicatorState extends State<PowerUpIndicator>
                   color: widget.color,
                 ),
               ),
-              // Pulsing glow
+
               Container(
                 width: 50 + (_controller.value * 4),
                 height: 50 + (_controller.value * 4),
@@ -70,7 +70,7 @@ class _PowerUpIndicatorState extends State<PowerUpIndicator>
                   color: widget.color.withValues(alpha: 0.2 * (1 - _controller.value)),
                 ),
               ),
-              // Emoji
+
               Text(
                 widget.emoji,
                 style: TextStyle(
@@ -84,7 +84,7 @@ class _PowerUpIndicatorState extends State<PowerUpIndicator>
                   ],
                 ),
               ),
-              // Timer text
+
               Positioned(
                 bottom: 2,
                 child: Container(
@@ -125,14 +125,14 @@ class _ProgressCirclePainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2;
 
-    // Background circle
+
     final bgPaint = Paint()
       ..color = Colors.white.withValues(alpha: 0.2)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4;
     canvas.drawCircle(center, radius - 2, bgPaint);
 
-    // Progress arc
+
     final progressPaint = Paint()
       ..color = color
       ..style = PaintingStyle.stroke

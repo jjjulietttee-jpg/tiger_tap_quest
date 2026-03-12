@@ -22,7 +22,7 @@ class Bubble {
   final Offset position;
   final double size;
   final DateTime spawnTime;
-  final double speed; // Pixels per second upward
+  final double speed;
 
   Bubble({
     required this.id,

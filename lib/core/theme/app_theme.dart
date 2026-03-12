@@ -6,12 +6,12 @@ class AppTheme {
   static String get bgAsset => _bgAsset;
 
   static ColorScheme get _colorScheme => ColorScheme.dark(
-        primary: const Color(0xFFFF8C42), // Bright tiger orange
+        primary: const Color(0xFFFF8C42),
         onPrimary: Colors.white,
-        secondary: const Color(0xFF4CAF50), // Jungle green
+        secondary: const Color(0xFF4CAF50),
         onSecondary: Colors.white,
-        surface: const Color(0xFF1B5E20), // Deep jungle green
-        onSurface: const Color(0xFFFFF8E1), // Warm cream
+        surface: const Color(0xFF1B5E20),
+        onSurface: const Color(0xFFFFF8E1),
         error: Colors.red.shade400,
         onError: Colors.white,
       );

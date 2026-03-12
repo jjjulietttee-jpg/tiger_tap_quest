@@ -18,20 +18,20 @@ class _JungleBackgroundState extends State<JungleBackground>
   @override
   void initState() {
     super.initState();
-    
-    // Leaf swaying animation
+
+
     _leafController = AnimationController(
       duration: const Duration(seconds: 3),
       vsync: this,
     )..repeat(reverse: true);
 
-    // Particle falling animation - SLOWER
+
     _particleController = AnimationController(
-      duration: const Duration(seconds: 40), // Increased from 20 to 40
+      duration: const Duration(seconds: 40),
       vsync: this,
     )..repeat();
 
-    // Generate particles (fireflies and leaves)
+
     _generateParticles();
   }
 
@@ -40,7 +40,7 @@ class _JungleBackgroundState extends State<JungleBackground>
       _particles.add(_Particle(
         x: _random.nextDouble(),
         y: _random.nextDouble(),
-        speed: 0.01 + _random.nextDouble() * 0.015, // Reduced from 0.02-0.05 to 0.01-0.025
+        speed: 0.01 + _random.nextDouble() * 0.015,
         size: 2 + _random.nextDouble() * 3,
         isFirefly: _random.nextBool(),
         phase: _random.nextDouble() * 2 * math.pi,
@@ -79,7 +79,7 @@ class _JungleBackgroundState extends State<JungleBackground>
             ),
           ),
         ),
-        // Animated particles
+
         AnimatedBuilder(
           animation: _particleController,
           builder: (context, child) {
@@ -92,7 +92,7 @@ class _JungleBackgroundState extends State<JungleBackground>
             );
           },
         ),
-        // Decorative leaves (optional - can add SVG or custom paint)
+
         Positioned(
           top: -20,
           left: -30,
@@ -168,15 +168,15 @@ class _ParticlePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     for (final particle in particles) {
-      // Update particle position
+
       particle.y = (particle.y + particle.speed * animation) % 1.0;
-      
-      final x = particle.x * size.width + 
+
+      final x = particle.x * size.width +
                 math.sin(animation * 2 * math.pi + particle.phase) * 20;
       final y = particle.y * size.height;
 
       if (particle.isFirefly) {
-        // Firefly - glowing yellow dot
+
         final glowPaint = Paint()
           ..color = Colors.yellow.withValues(alpha: 0.3)
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
@@ -188,11 +188,11 @@ class _ParticlePainter extends CustomPainter {
           );
         canvas.drawCircle(Offset(x, y), particle.size, paint);
       } else {
-        // Falling leaf - green
+
         final paint = Paint()
           ..color = Colors.lightGreen.withValues(alpha: 0.4);
-        
-        // Simple leaf shape (oval)
+
+
         canvas.save();
         canvas.translate(x, y);
         canvas.rotate(animation * 2 * math.pi + particle.phase);

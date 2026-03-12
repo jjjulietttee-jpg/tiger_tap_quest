@@ -30,3 +30,8 @@ This is a Flutter application. To run the project:
 - [Flutter Documentation](https://docs.flutter.dev/)
 - [Flutter Cookbook](https://docs.flutter.dev/cookbook)
 - [Dart Language Guide](https://dart.dev/guides)
+
+## Content Rating
+
+Recommended rating: Everyone / PEGI 3.
+No detected health, finance, gambling, user-generated content, or age-restricted features.

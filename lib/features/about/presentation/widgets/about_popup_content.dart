@@ -17,6 +17,7 @@ class AboutPopupContent extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
           textAlign: TextAlign.center,
+          semanticsLabel: 'App name Tiger Tap Quest',
         ),
         SizedBox(height: size.height * 0.015),
         Text(
@@ -25,6 +26,7 @@ class AboutPopupContent extends StatelessWidget {
             color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
           ),
           textAlign: TextAlign.center,
+          semanticsLabel: 'App version 1 point 0 point 0 plus 2',
         ),
         SizedBox(height: size.height * 0.025),
         Text(
@@ -32,6 +34,8 @@ class AboutPopupContent extends StatelessWidget {
           'earn achievements and unlock upgrades in the shop.',
           style: theme.textTheme.bodyLarge,
           textAlign: TextAlign.center,
+          semanticsLabel:
+              'Game description: fast arcade tapping game in jungle theme with multiple modes and power-ups',
         ),
       ],
     );

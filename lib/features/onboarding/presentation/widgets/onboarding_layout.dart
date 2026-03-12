@@ -66,7 +66,7 @@ class OnboardingLayout extends StatelessWidget {
                         Icons.stars,
                       ];
                       final emojis = ['🐯', '🍌', '💎'];
-                      
+
                       return OnboardingPage(
                         title: titles[index],
                         subtitle: subtitles[index],

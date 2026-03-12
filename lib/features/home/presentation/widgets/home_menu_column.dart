@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tiger_tap_quest/core/shared/widgets/card_widget.dart';
 import 'package:tiger_tap_quest/features/home/presentation/widgets/home_play_button.dart';
 import 'package:tiger_tap_quest/features/home/presentation/widgets/home_stats_section.dart';
+import 'package:tiger_tap_quest/features/home/presentation/widgets/home_audio_settings_card.dart';
 
 class HomeMenuColumn extends StatelessWidget {
   const HomeMenuColumn({super.key});
@@ -106,28 +107,10 @@ class HomeMenuColumn extends StatelessWidget {
             }
             return Padding(
               padding: EdgeInsets.only(bottom: size.height * 0.04),
-              child: CardWidget(
-                onTap: () => context.push('/achievements'),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('🏆', style: TextStyle(fontSize: 28)),
-                      SizedBox(width: 12),
-                      Text(
-                        'Achievements',
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          fontSize: 22,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              child: const HomeAudioSettingsCard(),
             );
           },
-          childCount: 5,
+          childCount: 6,
         ),
       ),
     );

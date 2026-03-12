@@ -8,11 +8,11 @@ class GameStats extends Equatable {
   final int bestCombo;
   final int totalBombsUsed;
   final int totalPowerUpsCollected;
-  final int coins; // Currency for shop
-  
-  // Per mode stats
+  final int coins;
+
+
   final int survivalBestScore;
-  final int clearBestTime; // in seconds
+  final int clearBestTime;
   final int scoreRushBestScore;
 
   const GameStats({

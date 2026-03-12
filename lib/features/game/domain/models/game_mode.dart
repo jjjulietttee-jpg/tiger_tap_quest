@@ -33,7 +33,7 @@ extension GameModeExtension on GameMode {
         return 3;
       case GameMode.clear:
       case GameMode.score:
-        return 999; // Unlimited
+        return 999;
     }
   }
 

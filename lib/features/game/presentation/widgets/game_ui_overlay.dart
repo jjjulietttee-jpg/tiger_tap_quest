@@ -42,11 +42,11 @@ class GameUIOverlay extends StatelessWidget {
           padding: EdgeInsets.all(size.width * 0.04),
           child: Column(
             children: [
-              // Top bar
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Score (non-interactive)
+
                   IgnorePointer(
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -87,7 +87,7 @@ class GameUIOverlay extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              // Power-ups row - non-interactive
+
               if (_hasActivePowerUps())
                 IgnorePointer(
                   child: Align(
@@ -127,7 +127,7 @@ class GameUIOverlay extends StatelessWidget {
                     ),
                   ),
                 ),
-              // Lives (if not unlimited) - non-interactive
+
               if (lives < 100)
                 IgnorePointer(
                   child: Align(
@@ -155,7 +155,7 @@ class GameUIOverlay extends StatelessWidget {
                     ),
                   ),
                 ),
-              // Timer (if time attack mode) - non-interactive
+
               if (remainingTime != null) ...[
                 const SizedBox(height: 8),
                 IgnorePointer(
@@ -193,7 +193,7 @@ class GameUIOverlay extends StatelessWidget {
                 ),
               ],
               const Spacer(),
-              // Bubbles popped counter (for Clear mode)
+
               if (targetBubbles != null)
                 IgnorePointer(
                   child: Container(
@@ -225,18 +225,18 @@ class GameUIOverlay extends StatelessWidget {
                   ),
                 ),
               const SizedBox(height: 8),
-              // Combo indicator - non-interactive
+
               if (combo > 0)
                 IgnorePointer(
                   child: TweenAnimationBuilder<double>(
-                    key: ValueKey(combo), // Restart animation on combo change
+                    key: ValueKey(combo),
                     tween: Tween(begin: 0.8, end: 1.0),
                     duration: const Duration(milliseconds: 200),
                     builder: (context, scale, child) {
-                      // More intense effects for higher combos
+
                       final isHighCombo = combo >= 10;
                       final isMediumCombo = combo >= 5;
-                      
+
                       return Transform.scale(
                         scale: scale,
                         child: Container(

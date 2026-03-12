@@ -56,7 +56,7 @@ class EndGame extends GameEvent {
 
 class ExplodeBubbles extends GameEvent {
   final List<String> bubbleIds;
-  final BubbleType triggerType; // What caused the explosion
+  final BubbleType triggerType;
 
   const ExplodeBubbles(this.bubbleIds, this.triggerType);
 

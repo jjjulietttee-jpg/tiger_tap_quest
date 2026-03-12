@@ -33,7 +33,7 @@ class _BubbleWidgetState extends State<BubbleWidget>
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
 
-    // Very gentle pulse for bubbles
+
     _pulseAnimation = Tween<double>(begin: 1.0, end: 1.02).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
@@ -56,11 +56,11 @@ class _BubbleWidgetState extends State<BubbleWidget>
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
-        // Only apply pulse after initial scale animation completes
-        final scale = _scaleAnimation.isCompleted 
-            ? _pulseAnimation.value 
+
+        final scale = _scaleAnimation.isCompleted
+            ? _pulseAnimation.value
             : _scaleAnimation.value;
-        
+
         return Transform.scale(
           scale: scale,
           child: Container(
@@ -100,63 +100,63 @@ class _BubbleWidgetState extends State<BubbleWidget>
   Color _getColor() {
     switch (widget.bubble.type) {
       case BubbleType.banana:
-        return const Color(0xFFFFEB3B); // Yellow
+        return const Color(0xFFFFEB3B);
       case BubbleType.coconut:
-        return const Color(0xFF8D6E63); // Brown
+        return const Color(0xFF8D6E63);
       case BubbleType.mango:
-        return const Color(0xFFFF9800); // Orange
+        return const Color(0xFFFF9800);
       case BubbleType.pineapple:
-        return const Color(0xFFFDD835); // Golden yellow
+        return const Color(0xFFFDD835);
       case BubbleType.watermelon:
-        return const Color(0xFFE91E63); // Pink/Red
+        return const Color(0xFFE91E63);
       case BubbleType.bomb:
-        return const Color(0xFF424242); // Dark gray
+        return const Color(0xFF424242);
       case BubbleType.tiger:
-        return const Color(0xFFFF6F00); // Tiger orange
+        return const Color(0xFFFF6F00);
       case BubbleType.slowmo:
-        return const Color(0xFF9C27B0); // Purple
+        return const Color(0xFF9C27B0);
       case BubbleType.freeze:
-        return const Color(0xFF03A9F4); // Light blue
+        return const Color(0xFF03A9F4);
       case BubbleType.lightning:
-        return const Color(0xFFFFEB3B); // Yellow
+        return const Color(0xFFFFEB3B);
       case BubbleType.star:
-        return const Color(0xFFFFC107); // Amber
+        return const Color(0xFFFFC107);
       case BubbleType.diamond:
-        return const Color(0xFF00BCD4); // Cyan
+        return const Color(0xFF00BCD4);
     }
   }
 
   Color _getBackgroundColor() {
-    // Lighter background color for the circle
+
     return _getColor().withValues(alpha: 0.3);
   }
 
   String _getEmoji() {
     switch (widget.bubble.type) {
       case BubbleType.banana:
-        return '🍌'; // Banana
+        return '🍌';
       case BubbleType.coconut:
-        return '🥥'; // Coconut
+        return '🥥';
       case BubbleType.mango:
-        return '🥭'; // Mango
+        return '🥭';
       case BubbleType.pineapple:
-        return '🍍'; // Pineapple
+        return '🍍';
       case BubbleType.watermelon:
-        return '🍉'; // Watermelon
+        return '🍉';
       case BubbleType.bomb:
-        return '💣'; // Bomb
+        return '💣';
       case BubbleType.tiger:
-        return '🐯'; // Tiger face
+        return '🐯';
       case BubbleType.slowmo:
-        return '⏱️'; // Slowmo
+        return '⏱️';
       case BubbleType.freeze:
-        return '❄️'; // Freeze
+        return '❄️';
       case BubbleType.lightning:
-        return '⚡'; // Lightning
+        return '⚡';
       case BubbleType.star:
-        return '🌟'; // Star
+        return '🌟';
       case BubbleType.diamond:
-        return '💎'; // Diamond
+        return '💎';
     }
   }
 }

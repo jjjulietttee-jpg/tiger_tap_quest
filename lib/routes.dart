@@ -16,7 +16,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 GoRouter createRouter() {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
-    // splash - /
+
     initialLocation: '/',
     redirect: (context, state) {
       return null;
