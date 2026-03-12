@@ -15,6 +15,7 @@ class DarkBackground extends StatelessWidget {
           child: Image.asset(
             AssetPaths.bgImage,
             fit: BoxFit.cover,
+            excludeFromSemantics: true,
           ),
         ),
         Positioned.fill(

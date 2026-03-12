@@ -20,6 +20,7 @@ class GameHeader extends StatelessWidget {
         child: Row(
           children: [
             IconButton(
+              tooltip: 'Back',
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 if (context.canPop()) {

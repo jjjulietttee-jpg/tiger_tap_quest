@@ -18,14 +18,13 @@ class ShopScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-
           Positioned.fill(
             child: Image.asset(
               'assets/images/bg.png',
               fit: BoxFit.cover,
+              excludeFromSemantics: true,
             ),
           ),
-
           Positioned.fill(
             child: Container(
               color: Colors.black.withValues(alpha: 0.75),
@@ -51,6 +50,7 @@ class ShopScreen extends StatelessWidget {
                           pinned: true,
                           backgroundColor: Colors.black.withValues(alpha: 0.6),
                           leading: IconButton(
+                            tooltip: 'Back',
                             icon: const Icon(Icons.arrow_back, color: Colors.white),
                             onPressed: () => context.pop(),
                           ),

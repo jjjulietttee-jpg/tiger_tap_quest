@@ -6,6 +6,7 @@ enum BubbleType {
   mango,
   pineapple,
   watermelon,
+
   bomb,
   tiger,
   slowmo,

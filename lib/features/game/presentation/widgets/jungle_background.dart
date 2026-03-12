@@ -59,14 +59,13 @@ class _JungleBackgroundState extends State<JungleBackground>
   Widget build(BuildContext context) {
     return Stack(
       children: [
-
         Positioned.fill(
           child: Image.asset(
             'assets/images/bg.png',
             fit: BoxFit.cover,
+            excludeFromSemantics: true,
           ),
         ),
-
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(

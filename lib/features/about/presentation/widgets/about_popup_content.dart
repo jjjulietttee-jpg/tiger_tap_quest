@@ -30,8 +30,8 @@ class AboutPopupContent extends StatelessWidget {
         ),
         SizedBox(height: size.height * 0.025),
         Text(
-          'Fast arcade tapping game in a jungle setting. Tap fruits, activate power-ups,'
-              ' and climb your best score in multiple modes.',
+          'A jungle adventure game where you tap colorful fruits, '
+          'earn achievements and unlock upgrades in the shop.',
           style: theme.textTheme.bodyLarge,
           textAlign: TextAlign.center,
           semanticsLabel:
