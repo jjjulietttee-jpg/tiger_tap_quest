@@ -21,12 +21,12 @@ class AboutPopupContent extends StatelessWidget {
         ),
         SizedBox(height: size.height * 0.015),
         Text(
-          'Version 1.0.0+2',
+          'Version 1.0.1+4',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
           ),
           textAlign: TextAlign.center,
-          semanticsLabel: 'App version 1 point 0 point 0 plus 2',
+          semanticsLabel: 'App version 1 point 0 point 1 plus 4',
         ),
         SizedBox(height: size.height * 0.025),
         Text(

@@ -1,10 +1,10 @@
 name: tiger_tap_quest
-description: app.
+description: A jungle-themed fruit tapping arcade game with multiple modes, achievements and upgrades.
 publish_to: 'none'
 version: 1.0.1+4
 
 environment:
-  sdk: ^3.10.7
+  sdk: ^3.10.4
 
 dependencies:
   flutter:
@@ -15,6 +15,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   equatable: ^2.0.7
   shared_preferences: ^2.3.3
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_lints: ^6.0.0
@@ -26,6 +27,10 @@ flutter:
     - assets/images/
     - assets/app_icons/
     - assets/sounds/
+  fonts:
+    - family: Fredoka
+      fonts:
+        - asset: assets/fonts/Fredoka-Variable.ttf
 
 flutter_launcher_icons:
   android: true

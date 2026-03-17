@@ -13,7 +13,7 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/images/bg.png',
+              'assets/images/bg.jpg',
               fit: BoxFit.cover,
               excludeFromSemantics: true,
             ),

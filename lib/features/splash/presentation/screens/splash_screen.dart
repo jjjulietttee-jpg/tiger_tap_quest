@@ -20,9 +20,20 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _navigateAway() async {
     await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
-    final completed = await StatsService().isOnboardingCompleted();
+
+    final service = StatsService();
+    final privacyAccepted = await service.isPrivacyAccepted();
     if (!mounted) return;
-    if (completed) {
+
+    if (!privacyAccepted) {
+      context.go('/privacy');
+      return;
+    }
+
+    final onboardingDone = await service.isOnboardingCompleted();
+    if (!mounted) return;
+
+    if (onboardingDone) {
       context.go('/menu');
     } else {
       context.go('/onboarding');

@@ -1,3 +1,3 @@
 class AssetPaths {
-  static const String bgImage = 'assets/images/bg.png';
+  static const String bgImage = 'assets/images/bg.jpg';
 }

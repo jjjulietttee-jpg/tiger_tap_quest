@@ -10,6 +10,7 @@ class StatsService {
   static const String _gameTutorialCompletedKey = 'game_tutorial_completed';
   static const String _achievementsKey = 'achievements';
   static const String _shopItemsKey = 'shop_items';
+  static const String _privacyAcceptedKey = 'privacy_accepted';
 
   Future<GameStats> loadStats() async {
     final prefs = await SharedPreferences.getInstance();
@@ -125,6 +126,16 @@ class StatsService {
     final prefs = await SharedPreferences.getInstance();
     final shopItemsJson = json.encode(items);
     await prefs.setString(_shopItemsKey, shopItemsJson);
+  }
+
+  Future<bool> isPrivacyAccepted() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_privacyAcceptedKey) ?? false;
+  }
+
+  Future<void> setPrivacyAccepted() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_privacyAcceptedKey, true);
   }
 
   Future<void> clearAll() async {

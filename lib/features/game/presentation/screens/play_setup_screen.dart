@@ -114,6 +114,14 @@ class PlaySetupScreen extends StatelessWidget {
                             theme,
                             size,
                           ),
+                          SizedBox(height: size.height * 0.02),
+                          _buildModeCard(
+                            context,
+                            GameMode.daily,
+                            Icons.calendar_today,
+                            theme,
+                            size,
+                          ),
                           SizedBox(height: size.height * 0.08),
                         ],
                       ),
@@ -136,11 +144,12 @@ class PlaySetupScreen extends StatelessWidget {
     Size size,
   ) {
 
-    final emoji = mode == GameMode.survival
-        ? '❤️'
-        : mode == GameMode.clear
-            ? '🎯'
-            : '⚡';
+    final emoji = switch (mode) {
+      GameMode.survival => '❤️',
+      GameMode.clear => '🎯',
+      GameMode.score => '⚡',
+      GameMode.daily => '📅',
+    };
 
     return Container(
       decoration: BoxDecoration(

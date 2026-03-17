@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.romanma.rchenko6"
+    namespace = "com.romanma.tigertapquest"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -19,9 +19,9 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.romanma.rchenko6"
+        applicationId = "com.romanma.tigertapquest"
         minSdk = flutter.minSdkVersion
-        targetSdk = 34
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

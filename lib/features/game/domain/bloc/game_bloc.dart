@@ -10,7 +10,7 @@ import 'package:tiger_tap_quest/core/domain/bloc/stats_bloc.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
   Timer? _gameTimer;
-  final Random _random = Random();
+  Random _random = Random();
   DateTime _lastSpawnTime = DateTime.now();
   final StatsBloc? statsBloc;
   int _bombsUsedCount = 0;
@@ -24,6 +24,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<MissTap>(_onMissTap);
     on<GameTick>(_onGameTick);
     on<EndGame>(_onEndGame);
+    on<ClearExplosions>(_onClearExplosions);
   }
 
   void _onStartGame(StartGame event, Emitter<GameState> emit) {
@@ -32,6 +33,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     _bombsUsedCount = 0;
     _powerUpsCollectedCount = 0;
 
+    if (event.mode == GameMode.daily) {
+      _random = Random(event.mode.dailySeed);
+    } else {
+      _random = Random();
+    }
 
     statsBloc?.add(const IncrementGamesPlayed());
 
@@ -45,7 +51,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         screenHeight: event.screenSize.height,
       ),
     );
-
 
     _gameTimer = Timer.periodic(const Duration(milliseconds: 16), (timer) {
       if (!isClosed && state.isPlaying) {
@@ -91,9 +96,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     DateTime? newStarEndTime = state.starEndTime;
     List<String> explodingIds = [];
 
-
     if (bubble.type == BubbleType.bomb) {
-
       _bombsUsedCount++;
       final bombRadius = 150.0;
       final bubblesInRadius = newBubbles.where((b) {
@@ -111,12 +114,14 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         newBubblesPopped++;
       }
       newCombo += 5;
-    } else if (bubble.type == BubbleType.tiger || bubble.type == BubbleType.lightning) {
-
+    } else if (bubble.type == BubbleType.tiger ||
+        bubble.type == BubbleType.lightning) {
       newBubbles.remove(bubble);
       final nearestType = _findNearestBubbleType(bubble, newBubbles);
       if (nearestType != null) {
-        final bubblesOfType = newBubbles.where((b) => b.type == nearestType).toList();
+        final bubblesOfType = newBubbles
+            .where((b) => b.type == nearestType)
+            .toList();
         explodingIds = bubblesOfType.map((b) => b.id).toList();
 
         for (final b in bubblesOfType) {
@@ -127,35 +132,29 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         newCombo += bubblesOfType.length;
       }
     } else if (bubble.type == BubbleType.slowmo) {
-
       newBubbles.remove(bubble);
       newSlowmoEndTime = DateTime.now().add(const Duration(seconds: 5));
       newScore += 10 * state.comboMultiplier;
       newCombo += 1;
     } else if (bubble.type == BubbleType.freeze) {
-
       newBubbles.remove(bubble);
       newFreezeEndTime = DateTime.now().add(const Duration(seconds: 3));
       newScore += 15 * state.comboMultiplier;
       newCombo += 1;
     } else if (bubble.type == BubbleType.star) {
-
       newBubbles.remove(bubble);
       newStarEndTime = DateTime.now().add(const Duration(seconds: 10));
       newScore += 20 * state.comboMultiplier;
       newCombo += 1;
     } else if (bubble.type == BubbleType.diamond) {
-
       newBubbles.remove(bubble);
       newScore += 100 * state.comboMultiplier;
       newCombo += 1;
     } else {
-
       newBubbles.remove(bubble);
       final group = _findConnectedBubbles(bubble, newBubbles);
 
       if (group.isNotEmpty) {
-
         explodingIds = group.map((b) => b.id).toList();
         for (final b in group) {
           newBubbles.remove(b);
@@ -165,7 +164,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         newBubblesPopped += groupSize;
         newCombo += groupSize;
       } else {
-
         newScore += 1 * state.comboMultiplier;
         newCombo += 1;
       }
@@ -187,15 +185,13 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       ),
     );
 
-
     if (explodingIds.isNotEmpty) {
       Future.delayed(const Duration(milliseconds: 400), () {
         if (!isClosed) {
-          emit(state.copyWith(explodingBubbles: []));
+          add(const ClearExplosions());
         }
       });
     }
-
 
     if (state.targetReached) {
       add(const EndGame());
@@ -209,7 +205,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     double minDistance = double.infinity;
 
     for (final bubble in bubbles) {
-
       if (bubble.type == BubbleType.bomb ||
           bubble.type == BubbleType.tiger ||
           bubble.type == BubbleType.slowmo ||
@@ -261,12 +256,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   void _onMissTap(MissTap event, Emitter<GameState> emit) {
-
     emit(state.copyWith(combo: 0));
   }
 
   void _onGameTick(GameTick event, Emitter<GameState> emit) {
-
     Duration? newRemainingTime = state.remainingTime;
     if (state.mode.timeLimit != null && state.startTime != null) {
       final elapsed = DateTime.now().difference(state.startTime!);
@@ -278,7 +271,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       }
     }
 
-
     final now = DateTime.now();
     final activeBubbles = <Bubble>[];
     int newLives = state.lives;
@@ -287,7 +279,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     for (final bubble in state.bubbles) {
       final elapsed = now.difference(bubble.spawnTime).inMilliseconds / 1000.0;
 
-
       double speedMultiplier = 1.0;
       if (state.isFreezeActive) {
         speedMultiplier = 0.0;
@@ -295,11 +286,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         speedMultiplier = 0.3;
       }
 
-      final newY = bubble.position.dy - (bubble.speed * elapsed * speedMultiplier);
-
+      final newY =
+          bubble.position.dy - (bubble.speed * elapsed * speedMultiplier);
 
       if (newY <= 50) {
-
         if (state.mode == GameMode.survival) {
           newLives -= 1;
           newCombo = 0;
@@ -311,23 +301,18 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       }
     }
 
-
     final playTime = state.startTime != null
         ? DateTime.now().difference(state.startTime!).inSeconds
         : 0;
-    final newDifficulty =
-        1.0 + (playTime / 20.0) * 0.4;
-
+    final newDifficulty = 1.0 + (playTime / 20.0) * 0.4;
 
     final timeSinceLastSpawn = now.difference(_lastSpawnTime).inMilliseconds;
     final spawnInterval = _calculateSpawnInterval(newDifficulty);
-
 
     final maxBubbles = min(10 + (newDifficulty * 2).round(), 18);
 
     if (timeSinceLastSpawn >= spawnInterval &&
         activeBubbles.length < maxBubbles) {
-
       final newBubble = _createRandomBubbleWithOffset(
         event.screenSize,
         newDifficulty,
@@ -347,14 +332,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       ),
     );
 
-
     if (newLives <= 0 && state.mode == GameMode.survival) {
       add(const EndGame());
     }
   }
 
   int _calculateSpawnInterval(double difficulty) {
-
     final baseInterval = 800;
     final minInterval = 400;
     final interval = (baseInterval - (difficulty - 1.0) * 100).round();
@@ -368,13 +351,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   ) {
     final type = _randomBubbleType(difficulty);
 
-
     final sizeVariation = _random.nextDouble();
     final size = 60.0 + (sizeVariation * 30.0);
 
     final x = size / 2 + _random.nextDouble() * (screenSize.width - size);
-    final y =
-        screenSize.height + size + yOffset;
+    final y = screenSize.height + size + yOffset;
     final speed = 2.0 + (difficulty * 0.5);
 
     return Bubble(
@@ -391,7 +372,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   BubbleType _randomBubbleType(double difficulty) {
     final rand = _random.nextDouble();
-
 
     final bombChance = min(0.03 + (difficulty - 1.0) * 0.01, 0.06);
     final tigerChance = min(0.02 + (difficulty - 1.0) * 0.01, 0.05);
@@ -424,7 +404,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     cumulative += diamondChance;
     if (rand < cumulative) return BubbleType.diamond;
 
-
     final normalRand = _random.nextDouble();
     if (normalRand < 0.20) return BubbleType.banana;
     if (normalRand < 0.40) return BubbleType.coconut;
@@ -437,10 +416,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     _gameTimer?.cancel();
     emit(state.copyWith(status: GameStatus.gameOver));
 
-
     if (statsBloc != null) {
-      final completed = state.targetReached ||
-                       (state.mode == GameMode.score && state.remainingTime != null);
+      final completed =
+          state.targetReached ||
+          ((state.mode == GameMode.score || state.mode == GameMode.daily) &&
+              state.remainingTime != null);
 
       String modeStr = 'survival';
       int? clearTime;
@@ -458,19 +438,28 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         case GameMode.score:
           modeStr = 'score';
           break;
+        case GameMode.daily:
+          modeStr = 'daily';
+          break;
       }
 
-      statsBloc!.add(UpdateGameResult(
-        score: state.score,
-        fruitsCollected: state.bubblesPopped,
-        bestCombo: state.bestCombo,
-        bombsUsed: _bombsUsedCount,
-        powerUpsCollected: _powerUpsCollectedCount,
-        completed: completed,
-        mode: modeStr,
-        clearTime: clearTime,
-      ));
+      statsBloc!.add(
+        UpdateGameResult(
+          score: state.score,
+          fruitsCollected: state.bubblesPopped,
+          bestCombo: state.bestCombo,
+          bombsUsed: _bombsUsedCount,
+          powerUpsCollected: _powerUpsCollectedCount,
+          completed: completed,
+          mode: modeStr,
+          clearTime: clearTime,
+        ),
+      );
     }
+  }
+
+  void _onClearExplosions(ClearExplosions event, Emitter<GameState> emit) {
+    emit(state.copyWith(explodingBubbles: []));
   }
 
   @override

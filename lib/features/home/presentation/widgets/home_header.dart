@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tiger_tap_quest/core/shared/widgets/custom_text.dart';
+import 'package:tiger_tap_quest/core/theme/app_theme.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -7,20 +7,30 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final size = MediaQuery.sizeOf(context);
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          size.width * 0.06,
-          size.height * 0.04,
-          size.width * 0.06,
-          size.height * 0.02,
+    return Column(
+      children: [
+        const Text('🐯', style: TextStyle(fontSize: 48)),
+        const SizedBox(height: 4),
+        Text(
+          'Tiger Tap Quest',
+          style: theme.textTheme.headlineLarge?.copyWith(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1,
+            shadows: [
+              Shadow(
+                color: AppTheme.orange.withValues(alpha: 0.6),
+                blurRadius: 16,
+              ),
+              Shadow(
+                color: Colors.black.withValues(alpha: 0.5),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
         ),
-        child: CustomText(
-          'Menu',
-          style: theme.textTheme.displayLarge,
-        ),
-      ),
+      ],
     );
   }
 }

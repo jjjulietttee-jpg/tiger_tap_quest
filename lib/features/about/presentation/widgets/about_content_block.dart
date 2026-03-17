@@ -17,7 +17,7 @@ class AboutContentBlock extends StatelessWidget {
             'Collect achievements, upgrade your abilities in the shop, and climb the leaderboard!',
             style: theme.textTheme.bodyLarge,
             semanticsLabel:
-                'Additional information about the app and gameplay',
+                'Tap rising fruits to score points across three exciting game modes. Collect achievements, upgrade your abilities in the shop, and climb the leaderboard.',
           ),
         ),
       ),

@@ -63,3 +63,7 @@ class ExplodeBubbles extends GameEvent {
   @override
   List<Object?> get props => [bubbleIds, triggerType];
 }
+
+class ClearExplosions extends GameEvent {
+  const ClearExplosions();
+}

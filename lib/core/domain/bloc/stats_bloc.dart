@@ -4,7 +4,6 @@ import 'package:tiger_tap_quest/core/data/models/game_stats.dart';
 import 'package:tiger_tap_quest/core/data/models/achievement.dart';
 import 'package:tiger_tap_quest/core/data/services/stats_service.dart';
 
-
 abstract class StatsEvent extends Equatable {
   const StatsEvent();
 
@@ -52,15 +51,15 @@ class UpdateGameResult extends StatsEvent {
 
   @override
   List<Object?> get props => [
-        score,
-        fruitsCollected,
-        bestCombo,
-        bombsUsed,
-        powerUpsCollected,
-        completed,
-        mode,
-        clearTime,
-      ];
+    score,
+    fruitsCollected,
+    bestCombo,
+    bombsUsed,
+    powerUpsCollected,
+    completed,
+    mode,
+    clearTime,
+  ];
 }
 
 class LoadAchievements extends StatsEvent {
@@ -75,6 +74,9 @@ class SetGameTutorialCompleted extends StatsEvent {
   const SetGameTutorialCompleted();
 }
 
+class ResetAllStats extends StatsEvent {
+  const ResetAllStats();
+}
 
 class StatsState extends Equatable {
   final GameStats stats;
@@ -103,21 +105,26 @@ class StatsState extends Equatable {
       achievements: achievements ?? this.achievements,
       isLoading: isLoading ?? this.isLoading,
       profileName: profileName ?? this.profileName,
-      gameTutorialCompleted: gameTutorialCompleted ?? this.gameTutorialCompleted,
+      gameTutorialCompleted:
+          gameTutorialCompleted ?? this.gameTutorialCompleted,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [stats, achievements, isLoading, profileName, gameTutorialCompleted];
+  List<Object?> get props => [
+    stats,
+    achievements,
+    isLoading,
+    profileName,
+    gameTutorialCompleted,
+  ];
 }
-
 
 class StatsBloc extends Bloc<StatsEvent, StatsState> {
   final StatsService _statsService;
 
   StatsBloc(this._statsService)
-      : super(const StatsState(stats: GameStats(), isLoading: true)) {
+    : super(const StatsState(stats: GameStats(), isLoading: true)) {
     on<LoadStats>(_onLoadStats);
     on<UpdateStats>(_onUpdateStats);
     on<IncrementGamesPlayed>(_onIncrementGamesPlayed);
@@ -125,6 +132,7 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
     on<LoadAchievements>(_onLoadAchievements);
     on<SetOnboardingCompleted>(_onSetOnboardingCompleted);
     on<SetGameTutorialCompleted>(_onSetGameTutorialCompleted);
+    on<ResetAllStats>(_onResetAllStats);
   }
 
   Future<void> _onSetGameTutorialCompleted(
@@ -148,32 +156,40 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
       final stats = await _statsService.loadStats();
       final achievements = await _statsService.loadAchievements();
       final profileName = await _statsService.loadProfileName();
-      final gameTutorialCompleted =
-          await _statsService.isGameTutorialCompleted();
-      emit(state.copyWith(
-        stats: stats,
-        achievements: achievements,
-        profileName: profileName,
-        gameTutorialCompleted: gameTutorialCompleted,
-        isLoading: false,
-      ));
+      final gameTutorialCompleted = await _statsService
+          .isGameTutorialCompleted();
+      emit(
+        state.copyWith(
+          stats: stats,
+          achievements: achievements,
+          profileName: profileName,
+          gameTutorialCompleted: gameTutorialCompleted,
+          isLoading: false,
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        stats: const GameStats(),
-        achievements: Achievements.all,
-        isLoading: false,
-      ));
+      emit(
+        state.copyWith(
+          stats: const GameStats(),
+          achievements: Achievements.all,
+          isLoading: false,
+        ),
+      );
     }
   }
 
   Future<void> _onUpdateStats(
-      UpdateStats event, Emitter<StatsState> emit) async {
+    UpdateStats event,
+    Emitter<StatsState> emit,
+  ) async {
     emit(state.copyWith(stats: event.stats));
     await _statsService.saveStats(event.stats);
   }
 
   Future<void> _onIncrementGamesPlayed(
-      IncrementGamesPlayed event, Emitter<StatsState> emit) async {
+    IncrementGamesPlayed event,
+    Emitter<StatsState> emit,
+  ) async {
     final newStats = state.stats.copyWith(
       totalGamesPlayed: state.stats.totalGamesPlayed + 1,
     );
@@ -183,8 +199,9 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
   }
 
   Future<void> _onUpdateGameResult(
-      UpdateGameResult event, Emitter<StatsState> emit) async {
-
+    UpdateGameResult event,
+    Emitter<StatsState> emit,
+  ) async {
     int coinsEarned = (event.score / 10).floor();
     if (event.completed) {
       coinsEarned += 50;
@@ -199,23 +216,19 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
       coins: state.stats.coins + coinsEarned,
     );
 
-
     if (event.score > newStats.bestScore) {
       newStats = newStats.copyWith(bestScore: event.score);
     }
 
-
     if (event.bestCombo > newStats.bestCombo) {
       newStats = newStats.copyWith(bestCombo: event.bestCombo);
     }
-
 
     if (event.completed) {
       newStats = newStats.copyWith(
         totalGamesCompleted: newStats.totalGamesCompleted + 1,
       );
     }
-
 
     switch (event.mode) {
       case 'survival':
@@ -243,7 +256,9 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
   }
 
   Future<void> _onLoadAchievements(
-      LoadAchievements event, Emitter<StatsState> emit) async {
+    LoadAchievements event,
+    Emitter<StatsState> emit,
+  ) async {
     final achievements = await _statsService.loadAchievements();
     emit(state.copyWith(achievements: achievements));
   }
@@ -299,5 +314,26 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
 
     emit(state.copyWith(achievements: updatedAchievements));
     await _statsService.saveAchievements(updatedAchievements);
+  }
+
+  Future<void> _onResetAllStats(
+    ResetAllStats event,
+    Emitter<StatsState> emit,
+  ) async {
+    final freshStats = const GameStats();
+    await _statsService.saveStats(freshStats);
+    final achievements = await _statsService.loadAchievements();
+    final resetAchievements = achievements
+        .map((a) => a.copyWith(currentProgress: 0, isCompleted: false))
+        .toList();
+    await _statsService.saveAchievements(resetAchievements);
+    emit(
+      StatsState(
+        stats: freshStats,
+        achievements: resetAchievements,
+        isLoading: false,
+        gameTutorialCompleted: false,
+      ),
+    );
   }
 }

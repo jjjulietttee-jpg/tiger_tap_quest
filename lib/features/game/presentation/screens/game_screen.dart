@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiger_tap_quest/core/data/services/haptic_service.dart';
 import 'package:tiger_tap_quest/core/domain/bloc/stats_bloc.dart';
 import 'package:tiger_tap_quest/features/game/domain/bloc/game_bloc.dart';
 import 'package:tiger_tap_quest/features/game/domain/bloc/game_event.dart';
@@ -11,6 +12,7 @@ import 'package:tiger_tap_quest/core/domain/bloc/music_cubit.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/game_ui_overlay.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/bubble_widget.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/tap_feedback_widget.dart';
+import 'package:tiger_tap_quest/features/game/presentation/widgets/combo_overlay.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/game_over_dialog.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/game_tutorial_overlay.dart';
 import 'package:tiger_tap_quest/features/game/presentation/widgets/pause_dialog.dart';
@@ -69,6 +71,15 @@ class _GameScreenState extends State<GameScreen> {
 
   void _handleTap(Bubble bubble) {
     context.read<MusicCubit>().playClickSound();
+    final haptic = RepositoryProvider.of<HapticService>(context);
+    final isSpecial = bubble.type == BubbleType.bomb ||
+        bubble.type == BubbleType.tiger ||
+        bubble.type == BubbleType.lightning;
+    if (isSpecial) {
+      haptic.heavy();
+    } else {
+      haptic.light();
+    }
     setState(() {
       _feedbackWidgets.add(
         TapFeedbackWidget(
@@ -215,6 +226,10 @@ class _GameScreenState extends State<GameScreen> {
                         _showPauseDialog(context);
                       },
                     ),
+                  ),
+                  ComboOverlay(
+                    combo: state.combo,
+                    multiplier: state.comboMultiplier,
                   ),
                 ],
               ),

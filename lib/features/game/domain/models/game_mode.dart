@@ -2,6 +2,7 @@ enum GameMode {
   survival,
   clear,
   score,
+  daily,
 }
 
 extension GameModeExtension on GameMode {
@@ -13,6 +14,8 @@ extension GameModeExtension on GameMode {
         return 'Clear Mode';
       case GameMode.score:
         return 'Score Rush';
+      case GameMode.daily:
+        return 'Daily Challenge';
     }
   }
 
@@ -24,12 +27,15 @@ extension GameModeExtension on GameMode {
         return 'Collect 100 fruits • As fast as you can';
       case GameMode.score:
         return '60 seconds • Maximum score';
+      case GameMode.daily:
+        return 'Same challenge every day • Beat your best';
     }
   }
 
   int get initialLives {
     switch (this) {
       case GameMode.survival:
+      case GameMode.daily:
         return 3;
       case GameMode.clear:
       case GameMode.score:
@@ -41,6 +47,8 @@ extension GameModeExtension on GameMode {
     switch (this) {
       case GameMode.score:
         return const Duration(seconds: 60);
+      case GameMode.daily:
+        return const Duration(seconds: 90);
       case GameMode.survival:
       case GameMode.clear:
         return null;
@@ -53,7 +61,13 @@ extension GameModeExtension on GameMode {
         return 100;
       case GameMode.survival:
       case GameMode.score:
+      case GameMode.daily:
         return null;
     }
+  }
+
+  int get dailySeed {
+    final now = DateTime.now();
+    return now.year * 10000 + now.month * 100 + now.day;
   }
 }

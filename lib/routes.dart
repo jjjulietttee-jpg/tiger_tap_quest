@@ -8,6 +8,8 @@ import 'package:tiger_tap_quest/features/game/presentation/screens/play_setup_sc
 import 'package:tiger_tap_quest/features/home/presentation/screens/home_screen.dart';
 import 'package:tiger_tap_quest/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:tiger_tap_quest/features/profile/presentation/screens/profile_screen.dart';
+import 'package:tiger_tap_quest/features/settings/presentation/screens/settings_screen.dart';
+import 'package:tiger_tap_quest/features/privacy/presentation/screens/privacy_gate_screen.dart';
 import 'package:tiger_tap_quest/features/splash/presentation/screens/splash_screen.dart';
 import 'package:tiger_tap_quest/features/shop/presentation/screens/shop_screen.dart';
 
@@ -16,7 +18,6 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 GoRouter createRouter() {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
-
     initialLocation: '/',
     redirect: (context, state) {
       return null;
@@ -25,6 +26,10 @@ GoRouter createRouter() {
       GoRoute(
         path: '/',
         builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: '/privacy',
+        builder: (context, state) => const PrivacyGateScreen(),
       ),
       GoRoute(
         path: '/onboarding',
@@ -56,6 +61,10 @@ GoRouter createRouter() {
       GoRoute(
         path: '/shop',
         builder: (context, state) => const ShopScreen(),
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsScreen(),
       ),
       GoRoute(
         path: '/about',

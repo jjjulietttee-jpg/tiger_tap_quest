@@ -4,6 +4,7 @@ import 'package:tiger_tap_quest/core/theme/app_theme.dart';
 import 'package:tiger_tap_quest/routes.dart';
 import 'package:tiger_tap_quest/core/domain/bloc/stats_bloc.dart';
 import 'package:tiger_tap_quest/core/data/services/stats_service.dart';
+import 'package:tiger_tap_quest/core/data/services/haptic_service.dart';
 import 'package:tiger_tap_quest/features/shop/domain/bloc/shop_bloc.dart';
 import 'package:tiger_tap_quest/core/domain/bloc/music_cubit.dart';
 
@@ -57,6 +58,7 @@ class TapApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statsService = StatsService();
+    final hapticService = HapticService()..initialize();
 
     return MultiBlocProvider(
       providers: [
@@ -73,11 +75,14 @@ class TapApp extends StatelessWidget {
           create: (context) => MusicCubit()..initialize(),
         ),
       ],
-      child: MusicLifecycleHandler(
-        child: MaterialApp.router(
-          title: 'Tiger Tap Quest',
-          theme: AppTheme.theme,
-          routerConfig: createRouter(),
+      child: RepositoryProvider<HapticService>.value(
+        value: hapticService,
+        child: MusicLifecycleHandler(
+          child: MaterialApp.router(
+            title: 'Tiger Tap Quest',
+            theme: AppTheme.theme,
+            routerConfig: createRouter(),
+          ),
         ),
       ),
     );
