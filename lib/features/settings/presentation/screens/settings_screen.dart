@@ -114,7 +114,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   color: Colors.white54, size: 18),
                               onTap: () async {
                                 final uri = Uri.parse(
-                                  'https://sergeypoznyko-tech.github.io/Tiger-Tap-Quest/privacy.html',
+                                  'https://sergeypoznyko-tech.github.io/Tiger-Tap---Jogo-Tigrinho/privacy-policy.html',
                                 );
                                 if (await canLaunchUrl(uri)) {
                                   await launchUrl(uri,

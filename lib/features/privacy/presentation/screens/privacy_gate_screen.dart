@@ -23,7 +23,7 @@ class _PrivacyGateScreenState extends State<PrivacyGateScreen>
   late Animation<double> _fade;
 
   static const _privacyUrl =
-      'https://sergeypoznyko-tech.github.io/Tiger-Tap-Quest/privacy.html';
+      'https://sergeypoznyko-tech.github.io/Tiger-Tap---Jogo-Tigrinho/privacy-policy.html';
 
   @override
   void initState() {
