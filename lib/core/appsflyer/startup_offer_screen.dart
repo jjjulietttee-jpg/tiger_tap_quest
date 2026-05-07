@@ -40,10 +40,7 @@ class _IntroPanelScreenState extends State<IntroPanelScreen> {
       if (!_loaded && !_dismissed) _dismiss();
     });
 
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: SystemUiOverlay.values,
-    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.white,

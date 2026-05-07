@@ -4,6 +4,7 @@ import 'dart:io' show Platform;
 import 'dart:math' as math;
 
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiger_tap_quest/core/appsflyer/appsflyer_config.dart';
 
@@ -53,7 +54,7 @@ class AppsFlyerService {
     final options = AppsFlyerOptions(
       afDevKey: AppsFlyerConfig.devKey,
       appId: Platform.isIOS ? AppsFlyerConfig.iosAppId : '',
-      showDebug: false,
+      showDebug: kDebugMode,
       timeToWaitForATTUserAuthorization: 0,
     );
 
@@ -79,6 +80,10 @@ class AppsFlyerService {
   }
 
   void _parseConversionData(dynamic rawData) {
+    if (kDebugMode) {
+      debugPrint('[AF] onConversionData raw=$rawData');
+    }
+
     final top = rawData is Map
         ? Map<String, dynamic>.from(rawData)
         : <String, dynamic>{};
@@ -88,7 +93,12 @@ class AppsFlyerService {
     final map = payload is Map ? Map<String, dynamic>.from(payload) : top;
     final innerStatus = (map['status'] ?? '').toString().toLowerCase();
 
-    if (topStatus == 'failure' || innerStatus == 'failure') return;
+    if (topStatus == 'failure' || innerStatus == 'failure') {
+      if (kDebugMode) {
+        debugPrint('[AF] conversion FAILURE — ignoring, waiting for real data');
+      }
+      return;
+    }
 
     if (_attributionReceived) return;
 
@@ -228,6 +238,12 @@ class AppsFlyerService {
     replacements.forEach((key, value) {
       out = out.replaceAll(key, value);
     });
+    if (kDebugMode) {
+      debugPrint('[AF] attrReceived=$_attributionReceived');
+      debugPrint('[AF] attribution=$_attribution');
+      debugPrint('[AF] uid=$uid cuid=$cuid');
+      debugPrint('[AF] resolvedUrl=$out');
+    }
     return out;
   }
 
@@ -278,6 +294,9 @@ class AppsFlyerService {
       }
       if (!_attributionCompleter.isCompleted) {
         _attributionCompleter.complete(attr);
+      }
+      if (kDebugMode) {
+        debugPrint('[AF] cache loaded | $attr');
       }
     } catch (_) {}
   }
