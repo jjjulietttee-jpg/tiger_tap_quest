@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "902309489261",
+    "project_id": "a-b6536",
+    "storage_bucket": "a-b6536.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902309489261:android:608bb828563f6ee892ed64",
+        "android_client_info": {
+          "package_name": "com.romanma.tigertapquest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvVjrZWyFwmhODChE3Flrhn5RH6oEITGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

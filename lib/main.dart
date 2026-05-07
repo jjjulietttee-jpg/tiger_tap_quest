@@ -1,22 +1,24 @@
+import 'dart:io';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tiger_tap_quest/core/appsflyer/appsflyer_service.dart';
 import 'package:tiger_tap_quest/core/appsflyer/startup_offer_screen.dart';
-import 'package:tiger_tap_quest/core/theme/app_theme.dart';
-import 'package:tiger_tap_quest/routes.dart';
-import 'package:tiger_tap_quest/core/domain/bloc/stats_bloc.dart';
-import 'package:tiger_tap_quest/core/data/services/stats_service.dart';
 import 'package:tiger_tap_quest/core/data/services/haptic_service.dart';
-import 'package:tiger_tap_quest/features/shop/domain/bloc/shop_bloc.dart';
+import 'package:tiger_tap_quest/core/data/services/stats_service.dart';
 import 'package:tiger_tap_quest/core/domain/bloc/music_cubit.dart';
+import 'package:tiger_tap_quest/core/domain/bloc/stats_bloc.dart';
+import 'package:tiger_tap_quest/core/theme/app_theme.dart';
+import 'package:tiger_tap_quest/features/shop/domain/bloc/shop_bloc.dart';
+import 'package:tiger_tap_quest/routes.dart';
 
 class MusicLifecycleHandler extends StatefulWidget {
   final Widget child;
 
-  const MusicLifecycleHandler({
-    super.key,
-    required this.child,
-  });
+  const MusicLifecycleHandler({super.key, required this.child});
 
   @override
   State<MusicLifecycleHandler> createState() => _MusicLifecycleHandlerState();
@@ -50,14 +52,28 @@ class _MusicLifecycleHandlerState extends State<MusicLifecycleHandler>
   }
 }
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  FirebaseAnalyticsObserver? analyticsObserver;
+  if (!kIsWeb && Platform.isAndroid) {
+    try {
+      await Firebase.initializeApp();
+      final analytics = FirebaseAnalytics.instance;
+      analyticsObserver = FirebaseAnalyticsObserver(analytics: analytics);
+      await analytics.setAnalyticsCollectionEnabled(kReleaseMode);
+    } catch (_) {}
+  }
+
   await AppsFlyerService.instance.init();
-  runApp(const TapApp());
+
+  runApp(TapApp(analyticsObserver: analyticsObserver));
 }
 
 class TapApp extends StatefulWidget {
-  const TapApp({super.key});
+  const TapApp({super.key, this.analyticsObserver});
+
+  final FirebaseAnalyticsObserver? analyticsObserver;
 
   @override
   State<TapApp> createState() => _TapAppState();
@@ -95,9 +111,7 @@ class _TapAppState extends State<TapApp> {
             statsBloc: context.read<StatsBloc>(),
           )..add(const LoadShopItems()),
         ),
-        BlocProvider(
-          create: (context) => MusicCubit()..initialize(),
-        ),
+        BlocProvider(create: (context) => MusicCubit()..initialize()),
       ],
       child: RepositoryProvider<HapticService>.value(
         value: hapticService,
@@ -105,7 +119,11 @@ class _TapAppState extends State<TapApp> {
           child: MaterialApp.router(
             title: 'Tiger Tap Quest',
             theme: AppTheme.theme,
-            routerConfig: createRouter(),
+            routerConfig: createRouter(
+              observers: [
+                if (widget.analyticsObserver != null) widget.analyticsObserver!,
+              ],
+            ),
           ),
         ),
       ),
