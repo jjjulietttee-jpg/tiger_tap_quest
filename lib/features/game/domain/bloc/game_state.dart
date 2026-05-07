@@ -25,7 +25,6 @@ class GameState extends Equatable {
   final int bombsUsed;
   final int powerUpsCollected;
 
-
   final DateTime? slowmoEndTime;
   final DateTime? freezeEndTime;
   final DateTime? starEndTime;
@@ -59,7 +58,6 @@ class GameState extends Equatable {
     } else if (combo >= 5) {
       multiplier = 2;
     }
-
 
     if (starEndTime != null && DateTime.now().isBefore(starEndTime!)) {
       multiplier *= 2;

@@ -27,7 +27,6 @@ class _TapFeedbackWidgetState extends State<TapFeedbackWidget>
   void initState() {
     super.initState();
 
-
     final duration = widget.type == null
         ? const Duration(milliseconds: 300)
         : const Duration(milliseconds: 400);
@@ -146,7 +145,6 @@ class _TapFeedbackWidgetState extends State<TapFeedbackWidget>
         ),
       );
     }
-
 
     Color color = _getBubbleColor();
     final particleCount = widget.type == BubbleType.bomb ? 16 : 12;

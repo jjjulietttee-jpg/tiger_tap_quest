@@ -4,7 +4,6 @@ import 'package:tiger_tap_quest/core/data/models/shop_item.dart';
 import 'package:tiger_tap_quest/core/data/services/stats_service.dart';
 import 'package:tiger_tap_quest/core/domain/bloc/stats_bloc.dart';
 
-
 abstract class ShopEvent extends Equatable {
   const ShopEvent();
 
@@ -24,7 +23,6 @@ class PurchaseItem extends ShopEvent {
   @override
   List<Object?> get props => [item];
 }
-
 
 class ShopState extends Equatable {
   final List<ShopItem> items;
@@ -52,7 +50,6 @@ class ShopState extends Equatable {
   @override
   List<Object?> get props => [items, isLoading, error];
 }
-
 
 class ShopBloc extends Bloc<ShopEvent, ShopState> {
   final StatsService _statsService;
@@ -101,14 +98,10 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
     final currentCoins = _statsBloc.state.stats.coins;
     final price = item.level == 0 ? item.price : item.nextLevelPrice;
 
-
     if (item.isMaxLevel) {
       emit(state.copyWith(error: 'Item is already max level!'));
       return;
     }
-
-
-
 
     try {
 
@@ -117,16 +110,13 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
         isPurchased: true,
       );
 
-
       final updatedItems = state.items.map((i) {
         return i.id == item.id ? updatedItem : i;
       }).toList();
 
-
       await _statsService.saveShopItems(
         updatedItems.map((i) => i.toJson()).toList(),
       );
-
 
       final updatedStats = _statsBloc.state.stats.copyWith(
         coins: currentCoins - price,

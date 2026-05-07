@@ -89,7 +89,6 @@ class ShopItem extends Equatable {
       ];
 }
 
-
 class ShopItems {
   static final List<ShopItem> all = [
     const ShopItem(

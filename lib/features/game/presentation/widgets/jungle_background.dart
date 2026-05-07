@@ -19,18 +19,15 @@ class _JungleBackgroundState extends State<JungleBackground>
   void initState() {
     super.initState();
 
-
     _leafController = AnimationController(
       duration: const Duration(seconds: 3),
       vsync: this,
     )..repeat(reverse: true);
 
-
     _particleController = AnimationController(
       duration: const Duration(seconds: 40),
       vsync: this,
     )..repeat();
-
 
     _generateParticles();
   }
@@ -191,7 +188,6 @@ class _ParticlePainter extends CustomPainter {
 
         final paint = Paint()
           ..color = Colors.lightGreen.withValues(alpha: 0.4);
-
 
         canvas.save();
         canvas.translate(x, y);

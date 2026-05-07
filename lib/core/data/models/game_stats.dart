@@ -10,7 +10,6 @@ class GameStats extends Equatable {
   final int totalPowerUpsCollected;
   final int coins;
 
-
   final int survivalBestScore;
   final int clearBestTime;
   final int scoreRushBestScore;

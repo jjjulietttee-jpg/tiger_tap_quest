@@ -33,7 +33,6 @@ class _BubbleWidgetState extends State<BubbleWidget>
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
 
-
     _pulseAnimation = Tween<double>(begin: 1.0, end: 1.02).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );

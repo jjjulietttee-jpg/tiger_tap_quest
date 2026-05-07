@@ -125,13 +125,11 @@ class _ProgressCirclePainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2;
 
-
     final bgPaint = Paint()
       ..color = Colors.white.withValues(alpha: 0.2)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4;
     canvas.drawCircle(center, radius - 2, bgPaint);
-
 
     final progressPaint = Paint()
       ..color = color

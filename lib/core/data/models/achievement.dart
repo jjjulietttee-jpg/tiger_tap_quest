@@ -68,7 +68,6 @@ class Achievement extends Equatable {
       ];
 }
 
-
 class Achievements {
   static final List<Achievement> all = [
 
@@ -108,7 +107,6 @@ class Achievements {
       targetValue: 250,
     ),
 
-
     const Achievement(
       id: 'fruit_collector',
       title: 'Fruit Collector',
@@ -137,7 +135,6 @@ class Achievements {
       emoji: '🍍',
       targetValue: 10000,
     ),
-
 
     const Achievement(
       id: 'combo_starter',
@@ -168,7 +165,6 @@ class Achievements {
       targetValue: 100,
     ),
 
-
     const Achievement(
       id: 'score_hunter',
       title: 'Score Hunter',
@@ -197,7 +193,6 @@ class Achievements {
       emoji: '🌠',
       targetValue: 20000,
     ),
-
 
     const Achievement(
       id: 'power_user',
@@ -242,7 +237,6 @@ class Achievements {
       targetValue: 100,
     ),
 
-
     const Achievement(
       id: 'first_victory',
       title: 'First Victory',
@@ -271,7 +265,6 @@ class Achievements {
       emoji: '🏅',
       targetValue: 50,
     ),
-
 
     const Achievement(
       id: 'speed_demon',

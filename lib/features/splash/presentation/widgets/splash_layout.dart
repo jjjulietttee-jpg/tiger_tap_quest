@@ -24,7 +24,6 @@ class _SplashLayoutState extends State<SplashLayout>
   void initState() {
     super.initState();
 
-
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
@@ -42,13 +41,11 @@ class _SplashLayoutState extends State<SplashLayout>
       ),
     );
 
-
     _rotateController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
     )..repeat();
     _rotate = Tween<double>(begin: 0, end: 2 * math.pi).animate(_rotateController);
-
 
     _pulseController = AnimationController(
       vsync: this,
@@ -80,7 +77,6 @@ class _SplashLayoutState extends State<SplashLayout>
         fit: StackFit.expand,
         children: [
           const DarkBackground(),
-
 
           AnimatedBuilder(
             animation: _rotate,
@@ -128,7 +124,6 @@ class _SplashLayoutState extends State<SplashLayout>
             },
           ),
 
-
           AnimatedBuilder(
             animation: _rotate,
             builder: (context, child) {
@@ -162,7 +157,6 @@ class _SplashLayoutState extends State<SplashLayout>
               );
             },
           ),
-
 
           Center(
             child: FadeTransition(
@@ -224,7 +218,6 @@ class _SplashLayoutState extends State<SplashLayout>
               ),
             ),
           ),
-
 
           Positioned(
             bottom: size.height * 0.1,

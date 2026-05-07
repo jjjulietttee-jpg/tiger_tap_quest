@@ -97,14 +97,12 @@ class _GameScreenState extends State<GameScreen> {
       );
     });
 
-
     _gameBloc.add(TapOnElement(bubble.id));
   }
 
   void _handleMissTap(Offset position) {
 
     _gameBloc.add(const MissTap());
-
 
     final missId = DateTime.now().millisecondsSinceEpoch.toString();
     setState(() {
@@ -165,7 +163,6 @@ class _GameScreenState extends State<GameScreen> {
                       onTapDown: (details) {
                         if (!state.isPlaying) return;
 
-
                         bool hitBubble = false;
                         for (final bubble in state.bubbles) {
                           final dx =
@@ -181,7 +178,6 @@ class _GameScreenState extends State<GameScreen> {
                             break;
                           }
                         }
-
 
                         if (!hitBubble) {
                           _handleMissTap(details.localPosition);
