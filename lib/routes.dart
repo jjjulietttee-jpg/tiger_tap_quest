@@ -15,9 +15,12 @@ import 'package:tiger_tap_quest/features/shop/presentation/screens/shop_screen.d
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
-GoRouter createRouter() {
+GoRouter createRouter({
+  List<NavigatorObserver> observers = const [],
+}) {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
+    observers: observers,
     initialLocation: '/',
     redirect: (context, state) {
       return null;

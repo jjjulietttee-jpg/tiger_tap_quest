@@ -70,7 +70,6 @@ app.*.map.json
 .env.*
 key.properties
 upload-keystore.jks
-google-services.json
 
 # IDE
 .vscode/

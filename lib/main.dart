@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tiger_tap_quest/core/theme/app_theme.dart';
@@ -11,10 +16,7 @@ import 'package:tiger_tap_quest/core/domain/bloc/music_cubit.dart';
 class MusicLifecycleHandler extends StatefulWidget {
   final Widget child;
 
-  const MusicLifecycleHandler({
-    super.key,
-    required this.child,
-  });
+  const MusicLifecycleHandler({super.key, required this.child});
 
   @override
   State<MusicLifecycleHandler> createState() => _MusicLifecycleHandlerState();
@@ -48,12 +50,24 @@ class _MusicLifecycleHandlerState extends State<MusicLifecycleHandler>
   }
 }
 
-void main() {
-  runApp(const TapApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  FirebaseAnalyticsObserver? analyticsObserver;
+  if (!kIsWeb && Platform.isAndroid) {
+    await Firebase.initializeApp();
+    final analytics = FirebaseAnalytics.instance;
+    analyticsObserver = FirebaseAnalyticsObserver(analytics: analytics);
+    await analytics.setAnalyticsCollectionEnabled(kReleaseMode);
+  }
+
+  runApp(TapApp(analyticsObserver: analyticsObserver));
 }
 
 class TapApp extends StatelessWidget {
-  const TapApp({super.key});
+  const TapApp({super.key, this.analyticsObserver});
+
+  final FirebaseAnalyticsObserver? analyticsObserver;
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +85,7 @@ class TapApp extends StatelessWidget {
             statsBloc: context.read<StatsBloc>(),
           )..add(const LoadShopItems()),
         ),
-        BlocProvider(
-          create: (context) => MusicCubit()..initialize(),
-        ),
+        BlocProvider(create: (context) => MusicCubit()..initialize()),
       ],
       child: RepositoryProvider<HapticService>.value(
         value: hapticService,
@@ -81,7 +93,9 @@ class TapApp extends StatelessWidget {
           child: MaterialApp.router(
             title: 'Tiger Tap Quest',
             theme: AppTheme.theme,
-            routerConfig: createRouter(),
+            routerConfig: createRouter(
+              observers: [if (analyticsObserver != null) analyticsObserver!],
+            ),
           ),
         ),
       ),
