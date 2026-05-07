@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show Platform;
 import 'dart:math' as math;
 
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
@@ -51,20 +52,20 @@ class AppsFlyerService {
 
     final options = AppsFlyerOptions(
       afDevKey: AppsFlyerConfig.devKey,
-      appId: AppsFlyerConfig.iosAppId,
+      appId: Platform.isIOS ? AppsFlyerConfig.iosAppId : '',
       showDebug: false,
       timeToWaitForATTUserAuthorization: 0,
     );
 
     _sdk = AppsflyerSdk(options);
 
+    _sdk!.onInstallConversionData(_parseConversionData);
+
     await _sdk!.initSdk(
       registerConversionDataCallback: true,
       registerOnAppOpenAttributionCallback: false,
       registerOnDeepLinkingCallback: false,
     );
-
-    _sdk!.onInstallConversionData(_parseConversionData);
 
     _initialized = true;
 
@@ -82,15 +83,21 @@ class AppsFlyerService {
         ? Map<String, dynamic>.from(rawData)
         : <String, dynamic>{};
 
-    final payload = top['data'];
+    final topStatus = (top['status'] ?? '').toString().toLowerCase();
+    final payload = top['data'] ?? top['payload'];
     final map = payload is Map ? Map<String, dynamic>.from(payload) : top;
+    final innerStatus = (map['status'] ?? '').toString().toLowerCase();
+
+    if (topStatus == 'failure' || innerStatus == 'failure') return;
+
+    if (_attributionReceived) return;
 
     String str(String key) => (map[key] ?? '').toString().trim();
 
     final mediaSource = str('media_source');
     final afStatus = str('af_status');
 
-    final newAttr = <String, String>{
+    _completeAttribution({
       'media_source': mediaSource,
       'af_status': afStatus,
       'campaign_id': str('campaign_id'),
@@ -99,19 +106,7 @@ class AppsFlyerService {
       'adset_id': str('adset_id'),
       'channel': str('channel'),
       'install_source': _normalizeSource(mediaSource, afStatus),
-    };
-
-    _attribution = newAttr;
-    if (!_attributionReceived) {
-      _attributionReceived = true;
-    }
-    if (!_attributionCompleter.isCompleted) {
-      _attributionCompleter.complete(newAttr);
-    }
-
-    if (mediaSource.isNotEmpty || afStatus.isNotEmpty) {
-      unawaited(_persistAttribution(newAttr));
-    }
+    });
   }
 
   String _normalizeSource(String mediaSource, String afStatus) {
@@ -139,11 +134,23 @@ class AppsFlyerService {
   }
 
   void _completeAttribution(Map<String, String> data) {
-    if (_attributionReceived) return;
+    if (_attributionReceived) {
+      final hadSource = (_attribution['media_source'] ?? '').isNotEmpty;
+      final hasSource = (data['media_source'] ?? '').isNotEmpty;
+      if (!hadSource && hasSource) {
+        _attribution = data;
+        unawaited(_persistAttribution(data));
+      }
+      return;
+    }
     _attributionReceived = true;
     _attribution = data;
     if (!_attributionCompleter.isCompleted) {
       _attributionCompleter.complete(data);
+    }
+    if ((data['media_source'] ?? '').isNotEmpty ||
+        (data['af_status'] ?? '').isNotEmpty) {
+      unawaited(_persistAttribution(data));
     }
   }
 
