@@ -1,7 +1,7 @@
 name: tiger_tap_quest
 description: A jungle-themed fruit tapping arcade game with multiple modes, achievements and upgrades.
 publish_to: 'none'
-version: 1.0.2+7
+version: 1.0.2+8
 
 environment:
   sdk: ^3.10.4
