@@ -29,7 +29,7 @@ android {
 
     buildTypes {
         release {
-            // signingConfig = signingConfigs.getByName("debug")
+            // Signing is not configured in the repo — CI (e.g. Codemagic) signs the AAB/APK.
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")

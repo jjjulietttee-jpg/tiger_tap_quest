@@ -68,8 +68,11 @@ app.*.map.json
 *.p12
 .env
 .env.*
+local.properties
 key.properties
 upload-keystore.jks
+google-services.json
+**/google-services.json
 
 # IDE
 .vscode/
